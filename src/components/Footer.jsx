@@ -8,9 +8,9 @@ import footerLogo from "@/assets/footerLogo.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#371B4D] text-white px-6 md:px-16 py-16">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 ">
+    <footer className="bg-[#371B4D] text-white  py-16">
+      <div className="container mx-auto px-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 ">
           <div className="">
             <div className="flex gap-2 items-center">
               <Image
@@ -65,7 +65,7 @@ const Footer = () => {
           <div>
             <h2 className="text-white mb-3 tracking-wide">CONTACT US</h2>
             <ul className="space-y-2 font-normal">
-              <li>786 901 1622</li>
+              <li>+880 1786 901 1622</li>
               <li>info@wandarland.com</li>
             </ul>
           </div>
