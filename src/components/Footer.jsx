@@ -10,27 +10,26 @@ const Footer = () => {
   return (
     <footer className="bg-[#371B4D] text-white px-6 md:px-16 py-16">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-12">
-          <div className="flex gap-2 items-center">
-            <Image
-              src={footerLogo}
-              alt="StoryNook"
-              width={60}
-              height={60}
-              className="rounded-lg"
-            />
-            <h1 className="text-5xl md:text-6xl font-bold text-white">
-              StoryNook
-            </h1>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 ">
+          <div className="">
+            <div className="flex gap-2 items-center">
+              <Image
+                src={footerLogo}
+                alt="StoryNook"
+                width={40}
+                height={40}
+                className="rounded-lg"
+              />
+              <h1 className="text-2xl md:text-3xl font-bold text-white">
+                StoryNook
+              </h1>
+            </div>
+            <p className="mt-4 max-w-xl">
+              Quiet study rooms, booked by the hour. Built for students,
+              scholars, and lifelong learners.
+            </p>
           </div>
-          <p className="mt-4 max-w-xl">
-            StoryNook helps book lovers reserve library reading spaces online
-            with ease.
-          </p>
-        </div>
 
-        {/* Grid Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Quick Links */}
           <div>
             <h2 className="text-white mb-3 tracking-wide">QUICK LINKS</h2>
@@ -50,6 +49,15 @@ const Footer = () => {
                   Rooms
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="#"
+                  className="font-medium hover:underline   cursor-pointer"
+                  aria-current="page"
+                >
+                  About
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -62,7 +70,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Support */}
+          {/* Social Links */}
           <div>
             <h2 className=" text-white mb-3 tracking-wide uppercase">
               Social Links
