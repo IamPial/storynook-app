@@ -45,7 +45,7 @@ const Navbar = () => {
           </button>
           <div className="flex items-center gap-3">
             <Image src={Logo} alt="StoryNook" width={50} height={50} />
-            <p className="font-bold text-purple-500 text-2xl">
+            <p className="font-extrabold text-purple-500 text-2xl">
               Story<span className="text-[#112A46]">Nook</span>
             </p>
           </div>
