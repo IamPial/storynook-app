@@ -5,6 +5,7 @@ import { Button } from "@heroui/react";
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/assets/logo.png";
+import NavLink from "./NavLink";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -52,43 +53,39 @@ const Navbar = () => {
         </div>
         <ul className="hidden items-center gap-4 md:flex text-[#112A46] font-semibold">
           <li>
-            <Link href="/">Home</Link>
+            <NavLink href="/">Home</NavLink>
           </li>
           <li>
-            <Link
-              href="/rooms"
-              className="font-medium text-accent"
-              aria-current="page"
-            >
+            <NavLink href="/rooms" className="font-medium " aria-current="page">
               Rooms
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               href="/add-room"
-              className="font-medium text-accent"
+              className="font-medium "
               aria-current="page"
             >
               Add Room
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               href="/my-listings"
-              className="font-medium text-accent"
+              className="font-medium "
               aria-current="page"
             >
               My Listings
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               href="/my-bookings"
-              className="font-medium text-accent"
+              className="font-medium "
               aria-current="page"
             >
               My Bookings
-            </Link>
+            </NavLink>
           </li>
         </ul>
         <div className=" items-center gap-4 flex">
@@ -108,41 +105,29 @@ const Navbar = () => {
         <div className="border-t border-separator md:hidden">
           <ul className="flex flex-col gap-2 p-4">
             <li>
-              <Link href="/" className="block py-2">
+              <NavLink href="/" className="block py-2">
                 Home
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link
-                href="/rooms"
-                className="block py-2 font-medium text-accent"
-              >
+              <NavLink href="/rooms" className="block py-2 font-medium ">
                 Rooms
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link
-                href="/add-room"
-                className="block py-2 font-medium text-accent"
-              >
+              <NavLink href="/add-room" className="block py-2 font-medium ">
                 Add Room
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link
-                href="/my-listings"
-                className="block py-2 font-medium text-accent"
-              >
+              <NavLink href="/my-listings" className="block py-2 font-medium">
                 My Listings
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link
-                href="/my-bookings"
-                className="block py-2 font-medium text-accent"
-              >
+              <NavLink href="/my-bookings" className="block py-2 font-medium ">
                 My Bookings
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </div>
