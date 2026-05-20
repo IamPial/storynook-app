@@ -63,10 +63,37 @@ const Navbar = () => {
               Rooms
             </Link>
           </li>
+          <li>
+            <Link
+              href="/add-room"
+              className="font-medium text-accent"
+              aria-current="page"
+            >
+              Add Room
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/my-listings"
+              className="font-medium text-accent"
+              aria-current="page"
+            >
+              My Listings
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/my-bookings"
+              className="font-medium text-accent"
+              aria-current="page"
+            >
+              My Bookings
+            </Link>
+          </li>
         </ul>
         <div className=" items-center gap-4 flex">
           <Link href="/login">
-            <Button className="border border-purple-300 bg-white text-[#112A46] font-semibold hover:border-0 hover:bg-[#8d46c7] hover:text-white rounded-lg">
+            <Button className=" bg-white text-[#112A46] font-semibold  hover:bg-[#8d46c7] hover:text-white rounded-lg">
               Login
             </Button>
           </Link>
@@ -91,6 +118,30 @@ const Navbar = () => {
                 className="block py-2 font-medium text-accent"
               >
                 Rooms
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/add-room"
+                className="block py-2 font-medium text-accent"
+              >
+                Add Room
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/my-listings"
+                className="block py-2 font-medium text-accent"
+              >
+                My Listings
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/my-bookings"
+                className="block py-2 font-medium text-accent"
+              >
+                My Bookings
               </Link>
             </li>
           </ul>
