@@ -1,11 +1,13 @@
 import Banner from "@/components/Banner";
-import ReadingPage from "@/components/Reading";
+import ChoosePage from "@/components/ChooseArea";
+import WorkPage from "@/components/Work";
 
 const Home = () => {
   return (
     <div>
       <Banner />
-      <ReadingPage />
+      <ChoosePage />
+      <WorkPage />
     </div>
   );
 };
