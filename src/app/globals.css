@@ -3,8 +3,12 @@
 
 body {
   font-family: var(--font-nunito);
-  background-color: #e1c8f4;
+  /* background-color: #e1c8f4; */
+  background-color: #f5edfc;
 }
 .heading-font {
   font-family: var(--font-bebas-neue);
+}
+.text-dark {
+  color: #112a46;
 }
