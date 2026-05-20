@@ -1,9 +1,11 @@
 import Banner from "@/components/Banner";
+import ReadingPage from "@/components/Reading";
 
 const Home = () => {
   return (
-    <div className="py-10">
+    <div>
       <Banner />
+      <ReadingPage />
     </div>
   );
 };
