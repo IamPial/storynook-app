@@ -15,6 +15,7 @@ import { useState } from "react";
 const AddRoomPage = () => {
   const [status, setStatus] = useState([]);
 
+  // checklist array
   const checkedList = [
     "Whiteboard",
     "Projector",
@@ -24,6 +25,7 @@ const AddRoomPage = () => {
     "Air Conditioning",
   ];
 
+  // for amenities checklist
   const handleChange = (check, isSelected) => {
     setStatus((previousValue) =>
       isSelected
@@ -32,12 +34,23 @@ const AddRoomPage = () => {
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const addRoomData = Object.fromEntries(formData.entries());
+
+    //inserting amenities key to this object
     addRoomData.amenities = status;
-    console.log(addRoomData);
+
+    const res = await fetch("http://localhost:5000/room", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(addRoomData),
+    });
+    const data = await res.json();
+    console.log(data);
   };
   return (
     <div className="container mx-auto py-10 px-2 md:px-0">
