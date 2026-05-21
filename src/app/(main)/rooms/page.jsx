@@ -1,9 +1,13 @@
-import { Card, Button, Chip } from "@heroui/react";
-import { BsPeopleFill, BsBookmarkCheckFill, BsSearch } from "react-icons/bs";
-import { HiHome } from "react-icons/hi";
-import Image from "next/image";
+import { Button } from "@heroui/react";
+import { BsSearch } from "react-icons/bs";
 
-const AllRoomsPage = () => {
+import RoomCardPage from "@/components/Card";
+
+const AllRoomsPage = async () => {
+  const res = await fetch("http://localhost:5000/room");
+  const roomData = await res.json();
+  console.log(roomData);
+
   return (
     <div className="container mx-auto py-10 px-2 md:px-0">
       <div className="mb-10">
@@ -13,8 +17,8 @@ const AllRoomsPage = () => {
           designed for focus.
         </p>
       </div>
-      <div className="flex flex-col lg:flex-row gap-5">
-        <div className="bg-[#faf7ff] border border-purple-100 rounded-2xl p-5  flex flex-col gap-5">
+      <div className="flex flex-col  lg:flex-row gap-5">
+        <div className="w-full lg:w-64 shrink-0 bg-[#faf7ff] border border-purple-100 rounded-2xl p-5  flex flex-col gap-5">
           <div className="flex flex-col gap-1.5">
             <label className="text-gray-500 text-sm">Search by name</label>
             <div className="flex items-center gap-2 bg-white  rounded-xl px-3 py-2  border border-purple-200">
@@ -67,203 +71,9 @@ const AllRoomsPage = () => {
           </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-5">
-          <Card className=" bg-[#faf7ff]  rounded-2xl p-0">
-            <div>
-              <Image
-                src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=700&q=80"
-                alt="Atrium Reading Nook"
-                width={200}
-                height={200}
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            <div className="px-2 pt-4 pb-5 flex flex-col gap-3">
-              <div className="flex justify-between items-start">
-                <h3 className="text-xl font-bold text-gray-800 tracking-tight">
-                  Atrium Reading Nook
-                </h3>
-                <span className="bg-purple-100 text-purple-700 text-[13px] font-medium px-3 py-1 rounded-full">
-                  $5/hr
-                </span>
-              </div>
-
-              <p className="text-[14px] text-gray-500 leading-relaxed">
-                Window-side reading nook overlooking the library atrium. Calm,
-                plant-filled, and well-lit.
-              </p>
-
-              <div className="flex gap-4">
-                <span className="flex items-center gap-1.5 text-[12px] text-gray-400">
-                  <HiHome size={14} /> 1st Floor
-                </span>
-                <span className="flex items-center gap-1.5 text-[12px] text-gray-400">
-                  <BsPeopleFill size={14} /> 3 people
-                </span>
-                <span className="flex items-center gap-1.5 text-[12px] text-gray-400">
-                  <BsBookmarkCheckFill size={14} /> 21 bookings
-                </span>
-              </div>
-
-              {/* Amenity Chips */}
-              <div className="flex gap-2 flex-wrap">
-                <Chip
-                  size="sm"
-                  className="bg-purple-100 text-purple-600 border-0"
-                >
-                  Wi-Fi
-                </Chip>
-                <Chip
-                  size="sm"
-                  className="bg-purple-100 text-purple-600 border-0"
-                >
-                  Quiet Zone
-                </Chip>
-                <Chip
-                  size="sm"
-                  className="bg-purple-100 text-purple-600 border-0"
-                >
-                  Air Conditioning
-                </Chip>
-              </div>
-
-              {/* Button */}
-              <Button className="w-full bg-purple-600 text-white rounded-xl font-medium hover:bg-purple-700">
-                View Details
-              </Button>
-            </div>
-          </Card>
-          <Card className=" bg-[#faf7ff]  rounded-2xl p-0">
-            {/* Image */}
-            <div>
-              <Image
-                src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=700&q=80"
-                alt="Atrium Reading Nook"
-                width={200}
-                height={200}
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            <div className="px-2 pt-4 pb-5 flex flex-col gap-3">
-              <div className="flex justify-between items-start">
-                <h3 className="text-xl font-bold text-gray-800 tracking-tight">
-                  Atrium Reading Nook
-                </h3>
-                <span className="bg-purple-100 text-purple-700 text-[13px] font-medium px-3 py-1 rounded-full">
-                  $5/hr
-                </span>
-              </div>
-
-              <p className="text-[14px] text-gray-500 leading-relaxed">
-                Window-side reading nook overlooking the library atrium. Calm,
-                plant-filled, and well-lit.
-              </p>
-
-              <div className="flex gap-4">
-                <span className="flex items-center gap-1.5 text-[12px] text-gray-400">
-                  <HiHome size={14} /> 1st Floor
-                </span>
-                <span className="flex items-center gap-1.5 text-[12px] text-gray-400">
-                  <BsPeopleFill size={14} /> 3 people
-                </span>
-                <span className="flex items-center gap-1.5 text-[12px] text-gray-400">
-                  <BsBookmarkCheckFill size={14} /> 21 bookings
-                </span>
-              </div>
-
-              {/* Amenity Chips */}
-              <div className="flex gap-2 flex-wrap">
-                <Chip
-                  size="sm"
-                  className="bg-purple-100 text-purple-600 border-0"
-                >
-                  Wi-Fi
-                </Chip>
-                <Chip
-                  size="sm"
-                  className="bg-purple-100 text-purple-600 border-0"
-                >
-                  Quiet Zone
-                </Chip>
-                <Chip
-                  size="sm"
-                  className="bg-purple-100 text-purple-600 border-0"
-                >
-                  Air Conditioning
-                </Chip>
-              </div>
-
-              <Button className="w-full bg-purple-600 text-white rounded-xl font-medium hover:bg-purple-700">
-                View Details
-              </Button>
-            </div>
-          </Card>
-          <Card className=" bg-[#faf7ff]  rounded-2xl p-0">
-            <div>
-              <Image
-                src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=700&q=80"
-                alt="Atrium Reading Nook"
-                width={200}
-                height={200}
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            <div className="px-2 pt-4 pb-5 flex flex-col gap-3">
-              <div className="flex justify-between items-start">
-                <h3 className="text-xl font-bold text-gray-800 tracking-tight">
-                  Atrium Reading Nook
-                </h3>
-                <span className="bg-purple-100 text-purple-700 text-[13px] font-medium px-3 py-1 rounded-full">
-                  $5/hr
-                </span>
-              </div>
-
-              <p className="text-[14px] text-gray-500 leading-relaxed">
-                Window-side reading nook overlooking the library atrium. Calm,
-                plant-filled, and well-lit.
-              </p>
-
-              <div className="flex gap-4">
-                <span className="flex items-center gap-1.5 text-[12px] text-gray-400">
-                  <HiHome size={14} /> 1st Floor
-                </span>
-                <span className="flex items-center gap-1.5 text-[12px] text-gray-400">
-                  <BsPeopleFill size={14} /> 3 people
-                </span>
-                <span className="flex items-center gap-1.5 text-[12px] text-gray-400">
-                  <BsBookmarkCheckFill size={14} /> 21 bookings
-                </span>
-              </div>
-
-              <div className="flex gap-2 flex-wrap">
-                <Chip
-                  size="sm"
-                  className="bg-purple-100 text-purple-600 border-0"
-                >
-                  Wi-Fi
-                </Chip>
-                <Chip
-                  size="sm"
-                  className="bg-purple-100 text-purple-600 border-0"
-                >
-                  Quiet Zone
-                </Chip>
-                <Chip
-                  size="sm"
-                  className="bg-purple-100 text-purple-600 border-0"
-                >
-                  Air Conditioning
-                </Chip>
-              </div>
-
-              {/* Button */}
-              <Button className="w-full bg-purple-600 text-white rounded-xl font-medium hover:bg-purple-700">
-                View Details
-              </Button>
-            </div>
-          </Card>
+          {roomData.map((room) => {
+            return <RoomCardPage room={room} key={room._id} />;
+          })}
         </div>
       </div>
     </div>
