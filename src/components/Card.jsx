@@ -6,7 +6,8 @@ import { FaPlus } from "react-icons/fa";
 import { HiHome } from "react-icons/hi";
 
 const RoomCardPage = ({ room }) => {
-  const { amenities, capacity, description, floor, image, name, rate } = room;
+  const { _id, amenities, capacity, description, floor, image, name, rate } =
+    room;
 
   //for slicing amenities
   const slicingAmenities = amenities.slice(0, 3);
@@ -76,7 +77,7 @@ const RoomCardPage = ({ room }) => {
             )}
           </div>
         </div>
-        <Link href={`/rooms/`}>
+        <Link href={`/rooms/${_id}`}>
           <Button className="w-full bg-purple-600 text-white rounded-xl font-medium hover:bg-purple-700">
             View Details
           </Button>
