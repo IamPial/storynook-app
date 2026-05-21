@@ -1,4 +1,4 @@
-"use client"; // Next.js App Router-এর জন্য এটা সবার উপরে দিতে হবে
+"use client";
 
 import { Button, Card, Avatar, Chip } from "@heroui/react";
 
