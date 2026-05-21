@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Button,
   Checkbox,
@@ -8,11 +10,41 @@ import {
   TextArea,
   TextField,
 } from "@heroui/react";
+import { useState } from "react";
 
 const AddRoomPage = () => {
+  const [status, setStatus] = useState([]);
+
+  const checkedList = [
+    "Whiteboard",
+    "Projector",
+    "Wi-Fi",
+    "Power Outlets",
+    "Quiet Zone",
+    "Air Conditioning",
+  ];
+
+  const handleChange = (check, isSelected) => {
+    setStatus((previousValue) =>
+      isSelected
+        ? [...previousValue, check]
+        : previousValue.filter((myCheck) => myCheck !== check),
+    );
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const addRoomData = Object.fromEntries(formData.entries());
+    addRoomData.amenities = status;
+    console.log(addRoomData);
+  };
   return (
     <div className="container mx-auto py-10 px-2 md:px-0">
-      <Form className="rounded-lg bg-background/70 shadow-lg flex border border-purple-100 py-8 px-5  max-w-2xl mx-auto flex-col gap-4">
+      <Form
+        onSubmit={handleSubmit}
+        className="rounded-lg bg-background/70 shadow-lg flex border border-purple-100 py-8 px-5  max-w-2xl mx-auto flex-col gap-4"
+      >
         <TextField name="name" type="name">
           <Label className="font-semibold text-dark">Room Name</Label>
           <Input
@@ -76,74 +108,28 @@ const AddRoomPage = () => {
         <div>
           <Label className="font-semibold text-dark ">Amenities</Label>
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 my-2">
-            <Checkbox className="border border-purple-300 rounded-lg p-2 hover:bg-purple-100 ">
-              <Checkbox.Control
-                className="border border-purple-200"
-                style={{ "--accent": "#7c3aed", "--accent-hover": "#6d28d9" }}
-              >
-                <Checkbox.Indicator />
-              </Checkbox.Control>
-              <Checkbox.Content>
-                <Label className="text-dark font-semibold">Whiteboard</Label>
-              </Checkbox.Content>
-            </Checkbox>
-            <Checkbox className="border border-purple-300  rounded-lg p-2 hover:bg-purple-100 ">
-              <Checkbox.Control
-                className="border border-purple-200"
-                style={{ "--accent": "#7c3aed", "--accent-hover": "#6d28d9" }}
-              >
-                <Checkbox.Indicator />
-              </Checkbox.Control>
-              <Checkbox.Content>
-                <Label className="text-dark font-semibold">Projector</Label>
-              </Checkbox.Content>
-            </Checkbox>
-            <Checkbox className="border border-purple-300  rounded-lg p-2 hover:bg-purple-100 ">
-              <Checkbox.Control
-                className="border border-purple-200"
-                style={{ "--accent": "#7c3aed", "--accent-hover": "#6d28d9" }}
-              >
-                <Checkbox.Indicator />
-              </Checkbox.Control>
-              <Checkbox.Content>
-                <Label className="text-dark font-semibold">Wi-Fi</Label>
-              </Checkbox.Content>
-            </Checkbox>
-            <Checkbox className="border border-purple-300  rounded-lg p-2 hover:bg-purple-100 ">
-              <Checkbox.Control
-                className="border border-purple-200"
-                style={{ "--accent": "#7c3aed", "--accent-hover": "#6d28d9" }}
-              >
-                <Checkbox.Indicator />
-              </Checkbox.Control>
-              <Checkbox.Content>
-                <Label className="text-dark font-semibold">Power Outlets</Label>
-              </Checkbox.Content>
-            </Checkbox>
-            <Checkbox className="border border-purple-300  rounded-lg p-2 hover:bg-purple-100 ">
-              <Checkbox.Control
-                className="border border-purple-200"
-                style={{ "--accent": "#7c3aed", "--accent-hover": "#6d28d9" }}
-              >
-                <Checkbox.Indicator />
-              </Checkbox.Control>
-              <Checkbox.Content>
-                <Label className="text-dark font-semibold">Quiet Zone</Label>
-              </Checkbox.Content>
-            </Checkbox>
-            <Checkbox className="border border-purple-300  rounded-lg p-2 hover:bg-purple-100 ">
-              <Checkbox.Control
-                className="border border-purple-200"
-                style={{ "--accent": "#7c3aed", "--accent-hover": "#6d28d9" }}
-              >
-                <Checkbox.Indicator />
-              </Checkbox.Control>
-              <Checkbox.Content>
-                <Label className="text-dark font-semibold">
-                  Air Conditioning
-                </Label>
-              </Checkbox.Content>
-            </Checkbox>
+            {checkedList.map((check) => {
+              return (
+                <Checkbox
+                  key={check}
+                  className="border border-purple-300 rounded-lg p-2 hover:bg-purple-100 "
+                  onChange={(isSelected) => handleChange(check, isSelected)}
+                >
+                  <Checkbox.Control
+                    className="border border-purple-200"
+                    style={{
+                      "--accent": "#7c3aed",
+                      "--accent-hover": "#6d28d9",
+                    }}
+                  >
+                    <Checkbox.Indicator />
+                  </Checkbox.Control>
+                  <Checkbox.Content>
+                    <Label className="text-dark font-semibold">{check}</Label>
+                  </Checkbox.Content>
+                </Checkbox>
+              );
+            })}
           </div>
         </div>
 
