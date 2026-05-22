@@ -11,9 +11,8 @@ import { IoIosLogOut } from "react-icons/io";
 
 const Navbar = () => {
   const { data: session, error } = authClient.useSession();
-  console.log(session);
+
   const user = session?.user;
-  console.log(user);
 
   const handleSignOut = async () => {
     await authClient.signOut();
