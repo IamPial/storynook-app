@@ -1,5 +1,3 @@
-"use client";
-
 import { Button, Card, Avatar, Chip } from "@heroui/react";
 
 import {
@@ -13,14 +11,16 @@ import Image from "next/image";
 import { BsArrowLeft } from "react-icons/bs";
 import { BiPlusCircle } from "react-icons/bi";
 import { FaRegCheckCircle } from "react-icons/fa";
+import BookNowModalPage from "@/components/BookNowModal";
+import EditModalPage from "@/components/EditModal";
+import DeleteModalPage from "@/components/DeleteModal";
 
-const RoomDetailsPage = () => {
-  const amenities = [
-    "Wi-Fi",
-    "Power Outlets",
-    "Quiet Zone",
-    "Air Conditioning",
-  ];
+const RoomDetailsPage = async ({ params }) => {
+  const { id } = await params;
+
+  const res = await fetch(`http://localhost:5000/room/${id}`);
+  const data = await res.json();
+  const { name, description, image, floor, capacity, rate, amenities } = data;
 
   return (
     <div className="min-h-screen bg-[#F6F3FA] text-gray-800 pb-12 font-sans">
@@ -45,18 +45,13 @@ const RoomDetailsPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           <div className="lg:col-span-2 flex flex-col gap-6">
             <div className="w-full h-100 rounded-3xl overflow-hidden shadow-sm border border-purple-100 relative">
-              <Image
-                src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80"
-                alt="Atrium Reading Nook"
-                fill
-                className="object-cover"
-              />
+              <Image src={image} alt={name} fill className="object-cover" />
             </div>
 
             <div className="flex flex-wrap items-center justify-between gap-4 mt-2">
               <div>
                 <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
-                  Atrium Reading Nook
+                  {name}
                 </h1>
                 <p className="text-sm text-gray-500 mt-1">
                   Listed May 20, 2026
@@ -72,10 +67,7 @@ const RoomDetailsPage = () => {
             </div>
 
             <p className="text-base text-gray-600 leading-relaxed max-w-2xl">
-              Window-side reading nook overlooking the library atrium. Calm,
-              plant-filled, and well-lit. Escape the bustle in this private,
-              window-side nook. A beautifully curated space with ample natural
-              light, surrounded by a variety of air-purifying plants.
+              {description}
             </p>
 
             <div className="flex flex-col gap-3 pt-4 border-t border-purple-100">
@@ -100,7 +92,9 @@ const RoomDetailsPage = () => {
             >
               <div className="flex flex-col gap-6 p-6">
                 <div className="flex items-baseline justify-between">
-                  <span className="text-3xl font-bold text-purple-700">$5</span>
+                  <span className="text-3xl font-bold text-purple-700">
+                    ${rate}
+                  </span>
                   <span className="text-sm text-gray-500 font-medium">
                     per hour
                   </span>
@@ -109,11 +103,13 @@ const RoomDetailsPage = () => {
                 <div className="flex flex-col gap-4 text-gray-600 pt-2">
                   <div className="flex items-center gap-3">
                     <HiOutlineMapPin size={18} className="text-purple-500" />
-                    <span className="text-sm font-medium">1st Floor</span>
+                    <span className="text-sm font-medium">{floor}</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <HiOutlineUsers size={18} className="text-purple-500" />
-                    <span className="text-sm font-medium">Up to 3 people</span>
+                    <span className="text-sm font-medium">
+                      Up to {capacity} people
+                    </span>
                   </div>
                   <div className="flex items-center gap-3">
                     <HiOutlineCalendar size={18} className="text-purple-500" />
@@ -123,14 +119,20 @@ const RoomDetailsPage = () => {
                   </div>
                 </div>
 
-                <Link href="/login" className="w-full">
+                {/* <Link href="/login" className="w-full">
                   <Button
                     color="secondary"
                     className="w-full font-semibold shadow-md shadow-purple-200 bg-purple-600 hover:bg-purple-700 text-white mt-2 rounded-xl"
                   >
                     Login to Book
                   </Button>
-                </Link>
+                </Link> */}
+
+                <BookNowModalPage />
+                <div className="flex gap-5 justify-between">
+                  <EditModalPage />
+                  <DeleteModalPage />
+                </div>
               </div>
             </Card>
 
