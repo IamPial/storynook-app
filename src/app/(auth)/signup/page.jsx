@@ -16,9 +16,10 @@ import Link from "next/link";
 import bookIcon from "@/assets/book.png";
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const SignUpPage = () => {
+  const router = useRouter();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -34,7 +35,7 @@ const SignUpPage = () => {
     console.log(data, error);
     if (data) {
       toast.success("Registration successful!");
-      redirect("/login");
+      router.push("/login");
     }
   };
 

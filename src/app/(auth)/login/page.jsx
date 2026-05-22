@@ -29,7 +29,6 @@ const LoginPage = () => {
       password: user.password,
     });
 
-    console.log(data, error);
     if (data) {
       router.push("/");
     }
