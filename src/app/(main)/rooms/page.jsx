@@ -6,7 +6,15 @@ import RoomCardPage from "@/components/Card";
 const AllRoomsPage = async () => {
   const res = await fetch("http://localhost:5000/room");
   const roomData = await res.json();
-  console.log(roomData);
+
+  const checkBoxSelect = [
+    "Whiteboard",
+    "Projector",
+    "Wi-Fi",
+    "Power Outlets",
+    "Quiet Zone",
+    "Air Conditioning",
+  ];
 
   return (
     <div className="container mx-auto py-10 px-2 md:px-0">
@@ -33,14 +41,7 @@ const AllRoomsPage = async () => {
 
           <div className="flex flex-col gap-2">
             <label className="text-gray-500 text-sm">Amenities</label>
-            {[
-              "Whiteboard",
-              "Projector",
-              "Wi-Fi",
-              "Power Outlets",
-              "Quiet Zone",
-              "Air Conditioning",
-            ].map((item) => (
+            {checkBoxSelect.map((item) => (
               <label
                 key={item}
                 className="flex items-center gap-2.5 cursor-pointer"
@@ -70,7 +71,7 @@ const AllRoomsPage = async () => {
             Reset
           </Button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-stretch  lg:grid-cols-3 gap-5">
           {roomData.map((room) => {
             return <RoomCardPage room={room} key={room._id} />;
           })}
