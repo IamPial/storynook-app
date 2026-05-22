@@ -128,7 +128,7 @@ const RoomDetailsPage = async ({ params }) => {
                   </Button>
                 </Link> */}
 
-                <BookNowModalPage />
+                <BookNowModalPage room={data} />
                 <div className="flex gap-5 justify-between">
                   <EditModalPage />
                   <DeleteModalPage />
