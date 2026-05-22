@@ -9,6 +9,7 @@ import {
   Label,
   TextArea,
   TextField,
+  Toast,
 } from "@heroui/react";
 import { useRouter } from "next/navigation";
 
@@ -55,6 +56,7 @@ const AddRoomPage = () => {
     const data = await res.json();
 
     if (data) {
+      Toast.success("Room Created Successfully!");
       router.push("/my-listings");
       router.refresh();
     }
