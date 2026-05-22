@@ -24,7 +24,6 @@ const SignUpPage = () => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const user = Object.fromEntries(formData.entries());
-    console.log(user);
 
     const { data, error } = await authClient.signUp.email({
       email: user.email,
@@ -33,8 +32,8 @@ const SignUpPage = () => {
       image: user.image,
     });
 
-    console.log(data, error);
     if (data) {
+      await authClient.signOut();
       toast.success("Registration successful!");
       router.push("/login");
     }
@@ -91,7 +90,24 @@ const SignUpPage = () => {
           <FieldError />
         </TextField>
 
-        <TextField isRequired minLength={6} name="password" type="password">
+        <TextField
+          isRequired
+          minLength={6}
+          name="password"
+          type="password"
+          validate={(value) => {
+            if (value.length < 6) {
+              return "Password must be at least 6 characters";
+            }
+            if (!/[A-Z]/.test(value)) {
+              return "Password must contain at least one uppercase letter";
+            }
+            if (!/[a-z]/.test(value)) {
+              return "Password must contain at least one lowercase letter";
+            }
+            return null;
+          }}
+        >
           <Label>Password</Label>
           <Input
             className="rounded-lg focus:right-2 focus:ring-purple-400   border border-purple-200 w-full shadow-none  mt-0.5"
