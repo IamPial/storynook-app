@@ -1,7 +1,7 @@
 import { Button } from "@heroui/react";
 import Link from "next/link";
 import { FaXTwitter } from "react-icons/fa6";
-import { LuFacebook } from "react-icons/lu";
+import { LuFacebook, LuInstagram } from "react-icons/lu";
 import { SlSocialLinkedin } from "react-icons/sl";
 import Image from "next/image";
 import footerLogo from "@/assets/footerLogo.png";
@@ -89,6 +89,11 @@ const Footer = () => {
               <Link href="#" className="cursor-pointer">
                 <Button className="bg-[#9d4edd] hover:bg-[#873bc5] rounded-lg">
                   <SlSocialLinkedin />
+                </Button>
+              </Link>
+              <Link href="#" className="cursor-pointer">
+                <Button className="bg-[#9d4edd] hover:bg-[#873bc5] rounded-lg">
+                  <LuInstagram />
                 </Button>
               </Link>
             </div>
