@@ -8,14 +8,18 @@ import Logo from "@/assets/logo.png";
 import NavLink from "./NavLink";
 import { authClient } from "@/lib/auth-client";
 import { IoIosLogOut } from "react-icons/io";
+import { redirect, useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const router = useRouter();
   const { data: session, error } = authClient.useSession();
 
   const user = session?.user;
 
   const handleSignOut = async () => {
     await authClient.signOut();
+    router.push("/");
+    router.refresh();
   };
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -74,33 +78,37 @@ const Navbar = () => {
                 Rooms
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                href="/add-room"
-                className="font-medium "
-                aria-current="page"
-              >
-                Add Room
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                href="/my-listings"
-                className="font-medium "
-                aria-current="page"
-              >
-                My Listings
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                href="/my-bookings"
-                className="font-medium "
-                aria-current="page"
-              >
-                My Bookings
-              </NavLink>
-            </li>
+            {user && (
+              <>
+                <li>
+                  <NavLink
+                    href="/add-room"
+                    className="font-medium "
+                    aria-current="page"
+                  >
+                    Add Room
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    href="/my-listings"
+                    className="font-medium "
+                    aria-current="page"
+                  >
+                    My Listings
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    href="/my-bookings"
+                    className="font-medium "
+                    aria-current="page"
+                  >
+                    My Bookings
+                  </NavLink>
+                </li>
+              </>
+            )}
           </ul>
           <div className=" items-center gap-4 flex">
             {user ? (
