@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
       className={`${bebasNeue.variable} ${nunito.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Toast.Provider />
+        <Toast.Provider className="top-8 right-8" placement="top end" />
         {children}
       </body>
     </html>
