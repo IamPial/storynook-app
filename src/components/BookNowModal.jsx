@@ -13,7 +13,7 @@ import {
   DateField,
   Calendar,
   DatePicker,
-  toast,
+  Toast,
 } from "@heroui/react";
 import { RiExpandVerticalLine } from "react-icons/ri";
 import { getLocalTimeZone, today } from "@internationalized/date";
@@ -74,7 +74,7 @@ const BookNowModalPage = ({ room }) => {
       body: JSON.stringify(bookingData),
     });
     const data = await res.json();
-    toast.success(`"${room?.name}" room booked successful `);
+    Toast.success(`"${room?.name}" room booked successful `);
     return data;
   };
 
