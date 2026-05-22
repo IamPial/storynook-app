@@ -32,11 +32,18 @@ const SignUpPage = () => {
       name: user.name,
       image: user.image,
     });
+
     console.log(data, error);
     if (data) {
       toast.success("Registration successful!");
       router.push("/login");
     }
+  };
+
+  const handleGoogleSignIn = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+    });
   };
 
   return (
@@ -108,7 +115,10 @@ const SignUpPage = () => {
             <p className="text-center text-gray-500 my-2 ">OR</p>
             <Separator className="w-45" />
           </div>
-          <Button className="w-full  hover:bg-purple-400 rounded-lg bg-white border text-neutral-900 border-gray-200 hover:text-white  ">
+          <Button
+            onClick={handleGoogleSignIn}
+            className="w-full  hover:bg-purple-400 rounded-lg bg-white border text-neutral-900 border-gray-200 hover:text-white  "
+          >
             <FcGoogle className="mb-2" />
             Sign Up With Google
           </Button>
