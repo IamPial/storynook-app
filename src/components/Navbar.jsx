@@ -1,13 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@heroui/react";
+import { Avatar, Button, Dropdown, Label } from "@heroui/react";
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/assets/logo.png";
 import NavLink from "./NavLink";
+import { authClient } from "@/lib/auth-client";
+import { IoIosLogOut } from "react-icons/io";
 
 const Navbar = () => {
+  const { data: session, error } = authClient.useSession();
+  console.log(session);
+  const user = session?.user;
+  console.log(user);
+
+  const handleSignOut = async () => {
+    await authClient.signOut();
+  };
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -94,16 +104,76 @@ const Navbar = () => {
             </li>
           </ul>
           <div className=" items-center gap-4 flex">
-            <Link href="/login">
-              <Button className=" bg-white text-[#112A46] font-semibold  hover:bg-[#8d46c7] hover:text-white rounded-lg">
-                Login
-              </Button>
-            </Link>
-            <Link href="/signup">
-              <Button className="  bg-[#9d4edd]  font-semibold  hover:bg-[#8d46c7] text-white rounded-lg">
-                Register
-              </Button>
-            </Link>
+            {user ? (
+              <>
+                <Dropdown>
+                  <Button
+                    aria-label="Menu"
+                    className="py-6 bg-background/80 backdrop-blur-lg"
+                    variant="secondary"
+                  >
+                    <Avatar>
+                      <Avatar.Image alt={user?.name} src={user?.image} />
+
+                      <Avatar.Fallback>{user?.name.charAt(0)}</Avatar.Fallback>
+                    </Avatar>{" "}
+                    <span className="text-dark">{user?.name}</span>
+                  </Button>
+
+                  <Dropdown.Popover>
+                    <Dropdown.Menu
+                      onAction={(key) => console.log(`Selected: ${key}`)}
+                    >
+                      <Dropdown.Item id="new-file" textValue="New file">
+                        <div>
+                          <h3>{user?.name}</h3>
+                          <small>{user?.email}</small>
+                        </div>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <NavLink
+                          href="/my-listings"
+                          className="font-medium "
+                          aria-current="page"
+                        >
+                          My Listings
+                        </NavLink>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <NavLink
+                          href="/my-bookings"
+                          className="font-medium "
+                          aria-current="page"
+                        >
+                          My Bookings
+                        </NavLink>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <Button
+                          onClick={handleSignOut}
+                          className="w-full bg-purple-400 "
+                        >
+                          <IoIosLogOut /> Log Out
+                        </Button>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown.Popover>
+                </Dropdown>
+              </>
+            ) : (
+              <>
+                <Link href="/login">
+                  <Button className=" bg-white text-[#112A46] font-semibold  hover:bg-[#8d46c7] hover:text-white rounded-lg">
+                    Login
+                  </Button>
+                </Link>
+                <Link href="/signup">
+                  <Button className="  bg-[#9d4edd]  font-semibold  hover:bg-[#8d46c7] text-white rounded-lg">
+                    Register
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
         </header>
         {isMenuOpen && (
