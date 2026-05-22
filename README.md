@@ -8,13 +8,13 @@ StoryNook is a full-stack web application that lets users discover, list, and bo
 
 ## Screenshots
 
-| Home Page                        | All Rooms                         |
-| -------------------------------- | --------------------------------- |
-| ![Home]("./src/assets/home.png") | ![Rooms]("./src/assets/room.png") |
+| Home Page                      | All Rooms                       |
+| ------------------------------ | ------------------------------- |
+| ![Home](./src/assets/home.png) | ![Rooms](./src/assets/room.png) |
 
-| Room Details                           | My Bookings                             |
-| -------------------------------------- | --------------------------------------- |
-| ![Details]("./src/assets/details.png") | ![Bookings]("./src/assets/booking.png") |
+| Room Details                         | My Bookings                           |
+| ------------------------------------ | ------------------------------------- |
+| ![Details](./src/assets/details.png) | ![Bookings](./src/assets/booking.png) |
 
 ---
 
