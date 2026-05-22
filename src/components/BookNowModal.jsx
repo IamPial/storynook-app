@@ -6,12 +6,16 @@ import {
   Button,
   Label,
   TextField,
-  Input,
   TextArea,
   Select,
   ListBox,
   Surface,
+  DateField,
+  Calendar,
+  DatePicker,
 } from "@heroui/react";
+import { RiExpandVerticalLine } from "react-icons/ri";
+import { getLocalTimeZone, today } from "@internationalized/date";
 
 const timeSlots = [
   "08:00",
@@ -38,6 +42,8 @@ const BookNowModalPage = ({ room }) => {
     return hours > 0 ? hours * (room?.rate || 0) : 0;
   };
 
+  const [bookingDate, setBookingDate] = useState(today(getLocalTimeZone()));
+
   return (
     <Modal>
       <Button
@@ -63,29 +69,59 @@ const BookNowModalPage = ({ room }) => {
             <Modal.Body className="p-6">
               <Surface variant="default">
                 <form className="flex flex-col gap-4">
-                  {/* Date */}
-                  <TextField
+                  <DatePicker
                     name="date"
-                    type="date"
-                    variant="secondary"
-                    className="w-full"
+                    value={bookingDate}
+                    onChange={setBookingDate}
                   >
                     <Label>Date</Label>
-                    <Input
-                      min={new Date().toISOString().split("T")[0]}
-                      defaultValue={new Date().toISOString().split("T")[0]}
-                    />
-                  </TextField>
+                    <DateField.Group variant="secondary">
+                      <DateField.Input>
+                        {(segment) => <DateField.Segment segment={segment} />}
+                      </DateField.Input>
+                      <DateField.Suffix>
+                        <DatePicker.Trigger>
+                          <DatePicker.TriggerIndicator />
+                        </DatePicker.Trigger>
+                      </DateField.Suffix>
+                    </DateField.Group>
+                    <DatePicker.Popover>
+                      <Calendar aria-label="Choose date">
+                        <Calendar.Header>
+                          <Calendar.YearPickerTrigger>
+                            <Calendar.YearPickerTriggerHeading />
+                            <Calendar.YearPickerTriggerIndicator />
+                          </Calendar.YearPickerTrigger>
+                          <Calendar.NavButton slot="previous" />
+                          <Calendar.NavButton slot="next" />
+                        </Calendar.Header>
+                        <Calendar.Grid>
+                          <Calendar.GridHeader>
+                            {(day) => (
+                              <Calendar.HeaderCell>{day}</Calendar.HeaderCell>
+                            )}
+                          </Calendar.GridHeader>
+                          <Calendar.GridBody>
+                            {(date) => <Calendar.Cell date={date} />}
+                          </Calendar.GridBody>
+                        </Calendar.Grid>
+                      </Calendar>
+                    </DatePicker.Popover>
+                  </DatePicker>
 
-                  {/* Start & End Time */}
                   <div className="flex gap-3">
                     <Select
-                      placeholder={startTime}
                       variant="secondary"
-                      className="flex-1"
+                      className="w-full"
+                      placeholder="Select one"
                     >
                       <Label>Start</Label>
-                      <Select.Trigger />
+                      <Select.Trigger>
+                        <Select.Value />
+                        <Select.Indicator className="size-3">
+                          <RiExpandVerticalLine />
+                        </Select.Indicator>
+                      </Select.Trigger>
                       <Select.Popover>
                         <ListBox>
                           {timeSlots.map((time) => (
@@ -97,9 +133,18 @@ const BookNowModalPage = ({ room }) => {
                       </Select.Popover>
                     </Select>
 
-                    <Select variant="secondary" className="flex-1">
+                    <Select
+                      variant="secondary"
+                      className="w-full"
+                      placeholder="Select one"
+                    >
                       <Label>End</Label>
-                      <Select.Trigger />
+                      <Select.Trigger>
+                        <Select.Value />
+                        <Select.Indicator className="size-3">
+                          <RiExpandVerticalLine />
+                        </Select.Indicator>
+                      </Select.Trigger>
                       <Select.Popover>
                         <ListBox>
                           {timeSlots.map((time) => (
@@ -112,7 +157,6 @@ const BookNowModalPage = ({ room }) => {
                     </Select>
                   </div>
 
-                  {/* Special Note */}
                   <TextField name="note" variant="secondary" className="w-full">
                     <Label>
                       Special note{" "}
@@ -121,8 +165,7 @@ const BookNowModalPage = ({ room }) => {
                     <TextArea placeholder="Any setup needed?" rows={3} />
                   </TextField>
 
-                  {/* Total Cost */}
-                  <div className="flex justify-between items-center bg-purple-50 rounded-xl px-4 py-3">
+                  <div className="flex justify-between items-center bg-gray-200 rounded-xl px-4 py-3">
                     <span className="text-sm text-muted">Total cost</span>
                     <span className="text-lg font-bold text-purple-600">
                       ${calculateTotal()}
