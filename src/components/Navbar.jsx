@@ -113,8 +113,11 @@ const Navbar = () => {
                     variant="secondary"
                   >
                     <Avatar>
-                      <Avatar.Image alt={user?.name} src={user?.image} />
-
+                      <Avatar.Image
+                        referrerPolicy="no-referrer"
+                        alt={user?.name}
+                        src={user?.image}
+                      />
                       <Avatar.Fallback>{user?.name.charAt(0)}</Avatar.Fallback>
                     </Avatar>{" "}
                     <span className="text-dark">{user?.name}</span>
