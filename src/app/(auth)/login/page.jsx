@@ -8,7 +8,7 @@ import {
   Label,
   Separator,
   TextField,
-  toast,
+  Toast,
 } from "@heroui/react";
 import Image from "next/image";
 import bookIcon from "@/assets/book.png";
@@ -31,9 +31,10 @@ const LoginPage = () => {
 
     if (data) {
       router.push("/");
+      router.refresh();
     }
     if (error) {
-      toast.danger("Invalid email or password");
+      Toast.danger("Invalid email or password");
     }
   };
 
