@@ -13,10 +13,13 @@ import {
   DateField,
   Calendar,
   DatePicker,
+  toast,
 } from "@heroui/react";
 import { RiExpandVerticalLine } from "react-icons/ri";
 import { getLocalTimeZone, today } from "@internationalized/date";
+import { authClient } from "@/lib/auth-client";
 
+//creates an array of time slots
 const timeSlots = [
   "08:00",
   "09:00",
@@ -32,17 +35,48 @@ const timeSlots = [
 ];
 
 const BookNowModalPage = ({ room }) => {
-  const [startTime, setStartTime] = useState("09:00");
-  const [endTime, setEndTime] = useState("11:00");
+  const [timeStart, setTimeStart] = useState("09:00");
+  const [timeEnd, setTimeEnd] = useState("10:00");
+  const [count, setCount] = useState(0);
 
-  const calculateTotal = () => {
-    const start = parseInt(startTime.split(":")[0]);
-    const end = parseInt(endTime.split(":")[0]);
-    const hours = end - start;
-    return hours > 0 ? hours * (room?.rate || 0) : 0;
-  };
+  //parse hour and also calculate it with rate
+  const start = parseInt(timeStart.split(":")[0]);
+  const end = parseInt(timeEnd.split(":")[0]);
+  const hour = end - start;
+  const totalCost = parseInt(room?.rate) * hour;
 
   const [bookingDate, setBookingDate] = useState(today(getLocalTimeZone()));
+
+  const { data: session, error } = authClient.useSession();
+
+  const user = session?.user;
+  const handleBooking = async () => {
+    const bookingData = {
+      userId: user.id,
+      userImg: user.image,
+      userName: user.name,
+      roomId: room._id,
+      roomImg: room.image,
+      roomName: room.name,
+      date: new Date(bookingDate),
+      start: timeStart,
+      end: timeEnd,
+      totalCost:
+        parseInt(room?.rate) *
+        (parseInt(timeEnd.split(":")[0]) - parseInt(timeStart.split(":")[0])),
+      bookingCount: count + 1,
+    };
+    const res = await fetch("http://localhost:5000/booking", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(bookingData),
+    });
+    const data = await res.json();
+    toast.success(`"${room?.name}" room booked successful `);
+    return data;
+  };
 
   return (
     <Modal>
@@ -59,7 +93,8 @@ const BookNowModalPage = ({ room }) => {
 
             <Modal.Header>
               <Modal.Heading>
-                Book <span className="text-purple-600">{room?.name}</span>
+                {" "}
+                <span className="text-purple-600">{room?.name}</span>
               </Modal.Heading>
               <p className="mt-1.5 text-sm leading-5 text-muted">
                 Pick a date and time slot. Bookings run on the hour.
@@ -114,6 +149,8 @@ const BookNowModalPage = ({ room }) => {
                       variant="secondary"
                       className="w-full"
                       placeholder="Select one"
+                      onChange={setTimeStart}
+                      value={timeStart}
                     >
                       <Label>Start</Label>
                       <Select.Trigger>
@@ -125,7 +162,7 @@ const BookNowModalPage = ({ room }) => {
                       <Select.Popover>
                         <ListBox>
                           {timeSlots.map((time) => (
-                            <ListBox.Item key={time} id={time}>
+                            <ListBox.Item key={time} id={time} textValue={time}>
                               {time}
                             </ListBox.Item>
                           ))}
@@ -137,6 +174,8 @@ const BookNowModalPage = ({ room }) => {
                       variant="secondary"
                       className="w-full"
                       placeholder="Select one"
+                      value={timeEnd}
+                      onChange={setTimeEnd}
                     >
                       <Label>End</Label>
                       <Select.Trigger>
@@ -148,7 +187,7 @@ const BookNowModalPage = ({ room }) => {
                       <Select.Popover>
                         <ListBox>
                           {timeSlots.map((time) => (
-                            <ListBox.Item key={time} id={time}>
+                            <ListBox.Item key={time} id={time} textValue={time}>
                               {time}
                             </ListBox.Item>
                           ))}
@@ -168,7 +207,7 @@ const BookNowModalPage = ({ room }) => {
                   <div className="flex justify-between items-center bg-gray-200 rounded-xl px-4 py-3">
                     <span className="text-sm text-muted">Total cost</span>
                     <span className="text-lg font-bold text-purple-600">
-                      ${calculateTotal()}
+                      ${totalCost}
                     </span>
                   </div>
                 </form>
@@ -182,6 +221,7 @@ const BookNowModalPage = ({ room }) => {
               <Button
                 slot="close"
                 className="bg-purple-600 text-white hover:bg-purple-700"
+                onClick={handleBooking}
               >
                 Confirm Booking
               </Button>
