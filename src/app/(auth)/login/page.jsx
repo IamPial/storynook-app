@@ -37,6 +37,12 @@ const LoginPage = () => {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+    });
+  };
+
   return (
     <div className="py-10  px-4 md:px-0 ">
       <Form
@@ -86,7 +92,10 @@ const LoginPage = () => {
             <p className="text-center text-gray-500 my-2 ">OR</p>
             <Separator className="w-45" />
           </div>
-          <Button className="w-full  hover:bg-purple-400 rounded-lg bg-white border text-neutral-900 border-gray-200 hover:text-white ">
+          <Button
+            onClick={handleGoogleSignIn}
+            className="w-full  hover:bg-purple-400 rounded-lg bg-white border text-neutral-900 border-gray-200 hover:text-white "
+          >
             <FcGoogle className="mb-2" />
             Sign Up With Google
           </Button>
