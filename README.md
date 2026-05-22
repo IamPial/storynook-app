@@ -8,9 +8,7 @@ StoryNook is a full-stack web application that lets users discover, list, and bo
 
 ## Screenshots
 
-| ![Home](./src/assets/home.png)
-
----
+![Home](./src/assets/home.png)
 
 ## Features
 
