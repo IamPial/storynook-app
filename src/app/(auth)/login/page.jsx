@@ -8,16 +8,42 @@ import {
   Label,
   Separator,
   TextField,
+  toast,
 } from "@heroui/react";
 import Image from "next/image";
 import bookIcon from "@/assets/book.png";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
+  const router = useRouter();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const user = Object.fromEntries(formData.entries());
+
+    const { data, error } = await authClient.signIn.email({
+      email: user.email,
+      password: user.password,
+    });
+
+    console.log(data, error);
+    if (data) {
+      router.push("/");
+    }
+    if (error) {
+      toast.danger("Invalid email or password");
+    }
+  };
+
   return (
     <div className="py-10  px-4 md:px-0 ">
-      <Form className="rounded-lg bg-background/70 shadow-lg flex border border-purple-100 p-5  max-w-md mx-auto flex-col gap-4">
+      <Form
+        onSubmit={handleSubmit}
+        className="rounded-lg bg-background/70 shadow-lg flex border border-purple-100 p-5  max-w-md mx-auto flex-col gap-4"
+      >
         <div>
           <Image
             src={bookIcon}
