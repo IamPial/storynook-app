@@ -10,9 +10,12 @@ import {
   TextArea,
   TextField,
 } from "@heroui/react";
+import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 
 const AddRoomPage = () => {
+  const router = useRouter();
   const [status, setStatus] = useState([]);
 
   // checklist array
@@ -50,7 +53,11 @@ const AddRoomPage = () => {
       body: JSON.stringify(addRoomData),
     });
     const data = await res.json();
-    console.log(data);
+
+    if (data) {
+      router.push("/my-listings");
+      router.refresh();
+    }
   };
   return (
     <div className="container mx-auto py-10 px-2 md:px-0">
