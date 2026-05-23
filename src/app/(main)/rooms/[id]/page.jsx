@@ -21,7 +21,7 @@ const RoomDetailsPage = async ({ params }) => {
   const { id } = await params;
 
   const session = await auth.api.getSession({
-    headers: await headers(), // you need to pass the headers object.
+    headers: await headers(),
   });
   const user = session?.user;
   console.log(user);
@@ -29,10 +29,6 @@ const RoomDetailsPage = async ({ params }) => {
   //from room API
   const res = await fetch(`http://localhost:5000/room/${id}`);
   const data = await res.json();
-
-  //from booking API
-  // const userRes = await fetch("http://localhost:5000/booking");
-  // const bookingData = await userRes.json();
 
   const {
     name,
@@ -57,7 +53,7 @@ const RoomDetailsPage = async ({ params }) => {
               <BsArrowLeft /> Back
             </Button>
           </Link>
-          <Link href="/add-rooms">
+          <Link href="/add-room">
             <Button className="bg-purple-400 rounded-lg">
               {" "}
               <BiPlusCircle /> Add Rooms
