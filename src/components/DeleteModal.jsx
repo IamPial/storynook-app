@@ -1,9 +1,30 @@
 "use client";
 
-import { AlertDialog, Button } from "@heroui/react";
+import { AlertDialog, Button, toast } from "@heroui/react";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { useRouter } from "next/navigation";
 
-const DeleteModalPage = () => {
+const DeleteModalPage = ({ data, token }) => {
+  const { _id } = data;
+  const router = useRouter();
+  const handleDelete = async () => {
+    const res = await fetch(`http://localhost:5000/room/${_id}`, {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+    });
+    const result = await res.json();
+
+    if (result) {
+      toast.success("Room Deleted Successfully!");
+      router.push("/rooms");
+      router.refresh();
+      return result;
+    }
+  };
+
   return (
     <AlertDialog>
       <Button className="px-8 bg-white border border-red-500 rounded-lg text-red-500 hover:bg-red-500 transition-all duration-300 hover:text-white">
@@ -29,7 +50,7 @@ const DeleteModalPage = () => {
               <Button slot="close" variant="tertiary">
                 Cancel
               </Button>
-              <Button slot="close" variant="danger">
+              <Button slot="close" variant="danger" onClick={handleDelete}>
                 Delete Room
               </Button>
             </AlertDialog.Footer>
