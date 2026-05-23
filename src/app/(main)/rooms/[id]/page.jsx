@@ -20,23 +20,18 @@ import { format } from "date-fns";
 
 const RoomDetailsPage = async ({ params }) => {
   const { id } = await params;
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
 
   const session = await auth.api.getSession({
     headers: await headers(),
   });
   const user = session?.user;
-  console.log(user);
 
-  const { token } = await auth.api.getToken({
-    headers: await headers(),
-  });
-
-  console.log(token);
   //from room API
   const res = await fetch(`http://localhost:5000/room/${id}`, {
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
+    cache: "no-store",
   });
   const data = await res.json();
 
@@ -49,8 +44,10 @@ const RoomDetailsPage = async ({ params }) => {
     rate,
     amenities,
     bookingCount,
-    createdAt,
+    userId,
   } = data;
+
+  const isOwnerThisRoom = userId === user?.id;
 
   return (
     <div className="min-h-screen bg-[#F6F3FA] text-gray-800 pb-12 font-sans">
@@ -155,10 +152,12 @@ const RoomDetailsPage = async ({ params }) => {
                 {user ? (
                   <>
                     <BookNowModalPage room={data} />
-                    <div className="flex gap-5 justify-between">
-                      <EditModalPage data={data} />
-                      <DeleteModalPage />
-                    </div>
+                    {isOwnerThisRoom && (
+                      <div className="flex gap-5 justify-between">
+                        <EditModalPage data={data} token={token} />
+                        <DeleteModalPage data={data} token={token} />
+                      </div>
+                    )}
                   </>
                 ) : (
                   <>
