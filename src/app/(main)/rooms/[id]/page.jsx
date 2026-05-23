@@ -16,6 +16,7 @@ import EditModalPage from "@/components/EditModal";
 import DeleteModalPage from "@/components/DeleteModal";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { format } from "date-fns";
 
 const RoomDetailsPage = async ({ params }) => {
   const { id } = await params;
@@ -73,7 +74,7 @@ const RoomDetailsPage = async ({ params }) => {
                   {name}
                 </h1>
                 <p className="text-sm text-gray-500 mt-1">
-                  Listed May 20, 2026
+                  Listed {format(new Date(), "MMM dd, yyyy")}
                 </p>
               </div>
               <Chip
