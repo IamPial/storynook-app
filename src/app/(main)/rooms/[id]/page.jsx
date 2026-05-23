@@ -49,6 +49,7 @@ const RoomDetailsPage = async ({ params }) => {
     rate,
     amenities,
     bookingCount,
+    createdAt,
   } = data;
 
   return (
@@ -83,7 +84,10 @@ const RoomDetailsPage = async ({ params }) => {
                   {name}
                 </h1>
                 <p className="text-sm text-gray-500 mt-1">
-                  Listed {format(new Date(), "MMM dd, yyyy")}
+                  Listed{" "}
+                  {data.createdAt
+                    ? format(new Date(data.createdAt), "MMM dd, yyyy")
+                    : "May 20 , 2026"}
                 </p>
               </div>
               <Chip
@@ -170,31 +174,35 @@ const RoomDetailsPage = async ({ params }) => {
             </Card>
 
             <div>
-              <Card
-                shadow="sm"
-                className="border border-purple-500/10 bg-white rounded-2xl "
-              >
-                <div className="p-5">
-                  <span className="text-xs font-bold tracking-wider text-gray-400 uppercase block mb-3">
-                    LISTED BY
-                  </span>
-                  <div className="flex items-center gap-4">
-                    <Avatar>
-                      <Avatar.Image alt="John Doe" src={user.image} />
-                      <Avatar.Fallback>{user.name.charAt(0)}</Avatar.Fallback>
-                    </Avatar>
+              {user && (
+                <Card
+                  shadow="sm"
+                  className="border border-purple-500/10 bg-white rounded-2xl "
+                >
+                  <div className="p-5">
+                    <span className="text-xs font-bold tracking-wider text-gray-400 uppercase block mb-3">
+                      LISTED BY
+                    </span>
+                    <div className="flex items-center gap-4">
+                      <Avatar>
+                        <Avatar.Image alt="John Doe" src={user?.image} />
+                        <Avatar.Fallback>
+                          {user?.name.charAt(0)}
+                        </Avatar.Fallback>
+                      </Avatar>
 
-                    <div className="flex flex-col">
-                      <h4 className="text-sm font-bold text-gray-800">
-                        {user.name}
-                      </h4>
-                      <p className="text-xs text-gray-500 flex items-center gap-1.5 mt-0.5">
-                        <FiMail size={12} /> {user.email}
-                      </p>
+                      <div className="flex flex-col">
+                        <h4 className="text-sm font-bold text-gray-800">
+                          {user?.name}
+                        </h4>
+                        <p className="text-xs text-gray-500 flex items-center gap-1.5 mt-0.5">
+                          <FiMail size={12} /> {user?.email}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Card>
+                </Card>
+              )}
             </div>
           </div>
         </div>
