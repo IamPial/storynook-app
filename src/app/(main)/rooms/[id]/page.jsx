@@ -14,13 +14,36 @@ import { FaRegCheckCircle } from "react-icons/fa";
 import BookNowModalPage from "@/components/BookNowModal";
 import EditModalPage from "@/components/EditModal";
 import DeleteModalPage from "@/components/DeleteModal";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 const RoomDetailsPage = async ({ params }) => {
   const { id } = await params;
 
+  const session = await auth.api.getSession({
+    headers: await headers(), // you need to pass the headers object.
+  });
+  const user = session?.user;
+  console.log(user);
+
+  //from room API
   const res = await fetch(`http://localhost:5000/room/${id}`);
   const data = await res.json();
-  const { name, description, image, floor, capacity, rate, amenities } = data;
+
+  //from booking API
+  // const userRes = await fetch("http://localhost:5000/booking");
+  // const bookingData = await userRes.json();
+
+  const {
+    name,
+    description,
+    image,
+    floor,
+    capacity,
+    rate,
+    amenities,
+    bookingCount,
+  } = data;
 
   return (
     <div className="min-h-screen bg-[#F6F3FA] text-gray-800 pb-12 font-sans">
@@ -62,7 +85,7 @@ const RoomDetailsPage = async ({ params }) => {
                 className="font-medium bg-purple-50 text-purple-600 border border-purple-100"
               >
                 <FaRegCheckCircle className="mt-0.5" />
-                21 Bookings
+                {bookingCount > 0 ? bookingCount : 0} Bookings
               </Chip>
             </div>
 
@@ -114,56 +137,59 @@ const RoomDetailsPage = async ({ params }) => {
                   <div className="flex items-center gap-3">
                     <HiOutlineCalendar size={18} className="text-purple-500" />
                     <span className="text-sm font-medium">
-                      21 total bookings
+                      {bookingCount > 0 ? bookingCount : 0} total bookings
                     </span>
                   </div>
                 </div>
 
-                {/* <Link href="/login" className="w-full">
-                  <Button
-                    color="secondary"
-                    className="w-full font-semibold shadow-md shadow-purple-200 bg-purple-600 hover:bg-purple-700 text-white mt-2 rounded-xl"
-                  >
-                    Login to Book
-                  </Button>
-                </Link> */}
-
-                <BookNowModalPage room={data} />
-                <div className="flex gap-5 justify-between">
-                  <EditModalPage />
-                  <DeleteModalPage />
-                </div>
+                {user ? (
+                  <>
+                    <BookNowModalPage room={data} />
+                    <div className="flex gap-5 justify-between">
+                      <EditModalPage data={data} />
+                      <DeleteModalPage />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <Link href="/login">
+                      <Button className="w-full font-semibold shadow-md shadow-purple-200 bg-purple-600 hover:bg-purple-700 text-white mt-2 rounded-xl">
+                        Login to Book
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </Card>
 
-            <Card
-              shadow="sm"
-              className="border border-purple-500/10 bg-white rounded-2xl "
-            >
-              <div className="p-5">
-                <span className="text-xs font-bold tracking-wider text-gray-400 uppercase block mb-3">
-                  LISTED BY
-                </span>
-                <div className="flex items-center gap-4">
-                  <Avatar>
-                    <Avatar.Image
-                      alt="John Doe"
-                      src="https://imgv3.fotor.com/images/slider-image/A-clear-image-of-a-woman-wearing-red-sharpened-by-Fotors-image-sharpener.jpg"
-                    />
-                    <Avatar.Fallback>JD</Avatar.Fallback>
-                  </Avatar>
+            <div>
+              <Card
+                shadow="sm"
+                className="border border-purple-500/10 bg-white rounded-2xl "
+              >
+                <div className="p-5">
+                  <span className="text-xs font-bold tracking-wider text-gray-400 uppercase block mb-3">
+                    LISTED BY
+                  </span>
+                  <div className="flex items-center gap-4">
+                    <Avatar>
+                      <Avatar.Image alt="John Doe" src={user.image} />
+                      <Avatar.Fallback>{user.name.charAt(0)}</Avatar.Fallback>
+                    </Avatar>
 
-                  <div className="flex flex-col">
-                    <h4 className="text-sm font-bold text-gray-800">
-                      Maya Chen
-                    </h4>
-                    <p className="text-xs text-gray-500 flex items-center gap-1.5 mt-0.5">
-                      <FiMail size={12} /> maya@studynook.demo
-                    </p>
+                    <div className="flex flex-col">
+                      <h4 className="text-sm font-bold text-gray-800">
+                        {user.name}
+                      </h4>
+                      <p className="text-xs text-gray-500 flex items-center gap-1.5 mt-0.5">
+                        <FiMail size={12} /> {user.email}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Card>
+              </Card>
+            </div>
           </div>
         </div>
       </div>
