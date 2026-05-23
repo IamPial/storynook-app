@@ -6,8 +6,17 @@ import { FaPlus } from "react-icons/fa";
 import { HiHome } from "react-icons/hi";
 
 const RoomCardPage = ({ room }) => {
-  const { _id, amenities, capacity, description, floor, image, name, rate } =
-    room;
+  const {
+    _id,
+    amenities,
+    capacity,
+    description,
+    floor,
+    image,
+    name,
+    rate,
+    bookingCount,
+  } = room;
 
   //for slicing amenities
   const slicingAmenities = amenities.slice(0, 3);
@@ -49,7 +58,8 @@ const RoomCardPage = ({ room }) => {
             <BsPeopleFill size={14} /> {capacity} people
           </span>
           <span className="flex items-center gap-1.5 text-[12px] text-gray-400">
-            <BsBookmarkCheckFill size={14} /> 21 bookings
+            <BsBookmarkCheckFill size={14} />{" "}
+            {bookingCount > 0 ? bookingCount : 0} bookings
           </span>
         </div>
 
