@@ -27,8 +27,17 @@ const RoomDetailsPage = async ({ params }) => {
   const user = session?.user;
   console.log(user);
 
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
+
+  console.log(token);
   //from room API
-  const res = await fetch(`http://localhost:5000/room/${id}`);
+  const res = await fetch(`http://localhost:5000/room/${id}`, {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
   const data = await res.json();
 
   const {
