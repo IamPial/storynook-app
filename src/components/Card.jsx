@@ -26,12 +26,11 @@ const RoomCardPage = ({ room }) => {
 
   return (
     <Card className="bg-[#faf7ff] rounded-2xl p-0 group hover:bg-purple-50 hover:shadow-lg hover:shadow-purple-100 flex flex-col h-full">
-      <div className="flex-shrink-0">
+      <div className="flex-shrink-0 relative w-full h-60 overflow-hidden">
         <Image
           src={image}
           alt={name}
-          width={200}
-          height={200}
+          fill
           className="w-full h-60 object-cover transition-all duration-300 group-hover:scale-105"
         />
       </div>
