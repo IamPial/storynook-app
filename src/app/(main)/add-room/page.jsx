@@ -11,6 +11,7 @@ import {
   TextField,
   Toast,
 } from "@heroui/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { useState } from "react";
@@ -18,6 +19,7 @@ import { useState } from "react";
 const AddRoomPage = () => {
   const router = useRouter();
   const [status, setStatus] = useState([]);
+  const [imageUrl, setImageUrl] = useState("");
 
   // checklist array
   const checkedList = [
@@ -56,7 +58,7 @@ const AddRoomPage = () => {
     const data = await res.json();
 
     if (data) {
-      Toast.success("Room Created Successfully!");
+      Toast.success("Room added successfully!");
       router.push("/my-listings");
       router.refresh();
     }
@@ -93,9 +95,19 @@ const AddRoomPage = () => {
             className="rounded-lg focus:right-2 focus:ring-purple-400   border border-purple-200 w-full shadow-none  mt-0.5"
             placeholder="https://...."
             required
+            onChange={(e) => setImageUrl(e.target.value)}
           />
           <FieldError />
         </TextField>
+        {imageUrl && (
+          <Image
+            src={imageUrl}
+            alt="preview"
+            width={400}
+            height={400}
+            className="w-full h-auto object-cover rounded-lg border border-purple-200"
+          />
+        )}
 
         <div className="flex flex-col lg:flex-row gap-5 justify-between">
           <TextField name="floor" type="text">
