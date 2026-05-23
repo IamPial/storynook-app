@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import {
   Button,
   Checkbox,
@@ -9,7 +10,7 @@ import {
   Label,
   TextArea,
   TextField,
-  Toast,
+  toast,
 } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -18,6 +19,8 @@ import { useState } from "react";
 
 const AddRoomPage = () => {
   const router = useRouter();
+  const { data: userData } = authClient.useSession();
+  console.log(userData);
   const [status, setStatus] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
 
@@ -47,6 +50,7 @@ const AddRoomPage = () => {
 
     //inserting amenities key to this object
     addRoomData.amenities = status;
+    addRoomData.userId = userData?.user?.id;
 
     const res = await fetch("http://localhost:5000/room", {
       method: "POST",
@@ -58,7 +62,7 @@ const AddRoomPage = () => {
     const data = await res.json();
 
     if (data) {
-      Toast.success("Room added successfully!");
+      toast.success("Room added successfully!");
       router.push("/my-listings");
       router.refresh();
     }
