@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import {
   Button,
   Checkbox,
@@ -11,22 +12,18 @@ import {
   Surface,
   TextArea,
   TextField,
+  toast,
 } from "@heroui/react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
 
-const EditModalPage = () => {
+const EditModalPage = ({ data, token }) => {
+  const router = useRouter();
   const [status, setStatus] = useState([]);
-
-  // checklist array
-  const checkedList = [
-    "Whiteboard",
-    "Projector",
-    "Wi-Fi",
-    "Power Outlets",
-    "Quiet Zone",
-    "Air Conditioning",
-  ];
+  const [imageUrl, setImageUrl] = useState("");
+  // const { data: sessionData } = authClient.useSession();
 
   // for amenities checklist
   const handleChange = (check, isSelected) => {
@@ -37,13 +34,34 @@ const EditModalPage = () => {
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
-    console.log(data);
+
+    // const token = sessionData?.session?.token;
+    // console.log("token:", token);
+
+    const res = await fetch(`http://localhost:5000/room/${_id}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    const result = await res.json();
+
+    if (result) {
+      toast.success("Room Updated Successfully");
+      router.refresh();
+      return result;
+    }
   };
 
+  const { _id, name, description, image, floor, capacity, rate, amenities } =
+    data;
   return (
     <div>
       <Modal>
@@ -60,7 +78,7 @@ const EditModalPage = () => {
                     onSubmit={handleSubmit}
                     className="rounded-lg bg-background/70 shadow-lg flex border border-purple-100 py-8 px-5 mx-auto w-full flex-col gap-4"
                   >
-                    <TextField name="name" type="name">
+                    <TextField defaultValue={name} name="name" type="name">
                       <Label className="font-semibold text-dark">
                         Room Name
                       </Label>
@@ -71,7 +89,7 @@ const EditModalPage = () => {
                       />
                       <FieldError />
                     </TextField>
-                    <TextField name="description">
+                    <TextField defaultValue={description} name="description">
                       <Label className="font-semibold text-dark">
                         Description
                       </Label>
@@ -84,7 +102,7 @@ const EditModalPage = () => {
 
                       <FieldError />
                     </TextField>
-                    <TextField name="image" type="url">
+                    <TextField defaultValue={image} name="image" type="url">
                       <Label className="font-semibold text-dark">
                         Image URL
                       </Label>
@@ -92,12 +110,22 @@ const EditModalPage = () => {
                         className="rounded-lg focus:right-2 focus:ring-purple-400   border border-purple-200 w-full shadow-none  mt-0.5"
                         placeholder="https://...."
                         required
+                        onChange={(e) => setImageUrl(e.target.value)}
                       />
                       <FieldError />
                     </TextField>
+                    {imageUrl && (
+                      <Image
+                        src={imageUrl}
+                        alt="preview"
+                        width={400}
+                        height={400}
+                        className="w-full h-auto object-cover rounded-lg border border-purple-200"
+                      />
+                    )}
 
                     <div className="flex flex-col lg:flex-row gap-5 justify-between">
-                      <TextField name="floor" type="text">
+                      <TextField defaultValue={floor} name="floor" type="text">
                         <Label className="font-semibold text-dark">Floor</Label>
                         <Input
                           className="rounded-lg focus:right-2 focus:ring-purple-400   border border-purple-200 w-full shadow-none  mt-0.5"
@@ -106,7 +134,11 @@ const EditModalPage = () => {
                         />
                         <FieldError />
                       </TextField>
-                      <TextField name="capacity" type="number">
+                      <TextField
+                        defaultValue={capacity}
+                        name="capacity"
+                        type="number"
+                      >
                         <Label className="font-semibold text-dark">
                           Capacity
                         </Label>
@@ -117,7 +149,7 @@ const EditModalPage = () => {
                         />
                         <FieldError />
                       </TextField>
-                      <TextField name="rate" type="number">
+                      <TextField defaultValue={rate} name="rate" type="number">
                         <Label className="font-semibold text-dark">
                           Hourly Rate ($)
                         </Label>
@@ -135,10 +167,11 @@ const EditModalPage = () => {
                         Amenities
                       </Label>
                       <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 my-2">
-                        {checkedList.map((check) => {
+                        {amenities.map((check) => {
                           return (
                             <Checkbox
                               key={check}
+                              defaultSelected
                               className="border border-purple-300 rounded-lg p-2 hover:bg-purple-100 "
                               onChange={(isSelected) =>
                                 handleChange(check, isSelected)
@@ -166,6 +199,7 @@ const EditModalPage = () => {
 
                     <Modal.Footer>
                       <Button
+                        slot="close"
                         type="submit"
                         className="cursor-pointer w-full rounded-lg  bg-[#9d4edd] hover:bg-[#8d46c7]"
                       >
