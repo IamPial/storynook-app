@@ -6,8 +6,17 @@ import { BsBookmarkCheckFill, BsPeopleFill } from "react-icons/bs";
 import { HiHome } from "react-icons/hi2";
 
 const BookingCardPage = ({ newData }) => {
-  const { _id, amenities, capacity, description, floor, image, name, rate } =
-    newData;
+  const {
+    _id,
+    amenities,
+    capacity,
+    description,
+    floor,
+    image,
+    name,
+    rate,
+    bookingCount,
+  } = newData;
 
   return (
     <div>
@@ -43,7 +52,7 @@ const BookingCardPage = ({ newData }) => {
               <BsPeopleFill size={14} /> {capacity} people
             </span>
             <span className="flex items-center gap-1.5 text-[12px] text-gray-400">
-              <BsBookmarkCheckFill size={14} /> 21 bookings
+              <BsBookmarkCheckFill size={14} /> {bookingCount} bookings
             </span>
           </div>
 
