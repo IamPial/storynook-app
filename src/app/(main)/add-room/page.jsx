@@ -20,7 +20,6 @@ import { useState } from "react";
 const AddRoomPage = () => {
   const router = useRouter();
   const { data: userData } = authClient.useSession();
-  console.log(userData);
   const [status, setStatus] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
 
@@ -71,12 +70,12 @@ const AddRoomPage = () => {
     <div className="container mx-auto py-10 px-2 md:px-0">
       <Form
         onSubmit={handleSubmit}
-        className="rounded-lg bg-background/70 shadow-lg flex border border-purple-100 py-8 px-5  max-w-2xl mx-auto flex-col gap-4"
+        className="rounded-lg bg-background/70 shadow-lg flex border border-purple-100 py-8 px-5 max-w-2xl mx-auto flex-col gap-4"
       >
         <TextField name="name" type="name">
           <Label className="font-semibold text-dark">Room Name</Label>
           <Input
-            className="rounded-lg  focus:right-2 focus:ring-purple-400  border border-purple-200 w-full shadow-none  mt-0.5"
+            className="rounded-lg  focus:right-2 focus:ring-purple-400 border border-purple-200 w-full shadow-none  mt-0.5"
             placeholder="Enter your name"
             required
           />
@@ -87,7 +86,7 @@ const AddRoomPage = () => {
           <TextArea
             required
             aria-label="Quick project update"
-            className="h-32 w-full shadow-none focus:right-2 focus:ring-purple-400   border border-purple-200"
+            className="h-32 w-full shadow-none focus:right-2 focus:ring-purple-400 border border-purple-200"
             placeholder="Write about creating rooms..."
           />
 
@@ -96,7 +95,7 @@ const AddRoomPage = () => {
         <TextField name="image" type="url">
           <Label className="font-semibold text-dark">Image URL</Label>
           <Input
-            className="rounded-lg focus:right-2 focus:ring-purple-400   border border-purple-200 w-full shadow-none  mt-0.5"
+            className="rounded-lg focus:right-2 focus:ring-purple-400 border border-purple-200 w-full shadow-none  mt-0.5"
             placeholder="https://...."
             required
             onChange={(e) => setImageUrl(e.target.value)}
@@ -117,7 +116,7 @@ const AddRoomPage = () => {
           <TextField name="floor" type="text">
             <Label className="font-semibold text-dark">Floor</Label>
             <Input
-              className="rounded-lg focus:right-2 focus:ring-purple-400   border border-purple-200 w-full shadow-none  mt-0.5"
+              className="rounded-lg focus:right-2 focus:ring-purple-400 border border-purple-200 w-full shadow-none  mt-0.5"
               placeholder="3rd Floor"
               required
             />
@@ -126,7 +125,7 @@ const AddRoomPage = () => {
           <TextField name="capacity" type="number">
             <Label className="font-semibold text-dark">Capacity</Label>
             <Input
-              className="rounded-lg focus:right-2 focus:ring-purple-400   border border-purple-200 w-full shadow-none  mt-0.5"
+              className="rounded-lg focus:right-2 focus:ring-purple-400 border border-purple-200 w-full shadow-none  mt-0.5"
               placeholder=" 4"
               required
             />
@@ -135,7 +134,7 @@ const AddRoomPage = () => {
           <TextField name="rate" type="number">
             <Label className="font-semibold text-dark">Hourly Rate ($)</Label>
             <Input
-              className="rounded-lg focus:right-2 focus:ring-purple-400   border border-purple-200 w-full shadow-none  mt-0.5"
+              className="rounded-lg focus:right-2 focus:ring-purple-400 border border-purple-200 w-full shadow-none  mt-0.5"
               placeholder="$5"
               required
             />
