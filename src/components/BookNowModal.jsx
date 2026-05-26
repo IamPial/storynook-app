@@ -13,11 +13,12 @@ import {
   DateField,
   Calendar,
   DatePicker,
-  Toast,
+  toast,
 } from "@heroui/react";
 import { RiExpandVerticalLine } from "react-icons/ri";
 import { getLocalTimeZone, today } from "@internationalized/date";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 //creates an array of time slots
 const timeSlots = [
@@ -35,9 +36,12 @@ const timeSlots = [
 ];
 
 const BookNowModalPage = ({ room }) => {
+  console.log(room);
+  const router = useRouter();
+
   const [timeStart, setTimeStart] = useState("09:00");
   const [timeEnd, setTimeEnd] = useState("10:00");
-  const [count, setCount] = useState(0);
+  const [bookingDate, setBookingDate] = useState(today(getLocalTimeZone()));
 
   //parse hour and also calculate it with rate
   const start = parseInt(timeStart.split(":")[0]);
@@ -45,12 +49,17 @@ const BookNowModalPage = ({ room }) => {
   const hour = end - start;
   const totalCost = parseInt(room?.rate) * hour;
 
-  const [bookingDate, setBookingDate] = useState(today(getLocalTimeZone()));
+  const endTimeSlots = timeSlots.filter((time) => {
+    return parseInt(time.split(":")[0]) > parseInt(timeStart.split(":")[0]);
+  });
 
   const { data: session, error } = authClient.useSession();
-
   const user = session?.user;
+
   const handleBooking = async () => {
+    const { data: tokenData } = await authClient.token();
+    const token = tokenData?.token;
+
     const bookingData = {
       userId: user.id,
       userImg: user.image,
@@ -59,23 +68,27 @@ const BookNowModalPage = ({ room }) => {
       roomImg: room.image,
       roomName: room.name,
       date: new Date(bookingDate),
-      start: timeStart,
-      end: timeEnd,
-      totalCost:
-        parseInt(room?.rate) *
-        (parseInt(timeEnd.split(":")[0]) - parseInt(timeStart.split(":")[0])),
-      bookingCount: count + 1,
+      timeStart,
+      timeEnd,
+      totalCost,
     };
     const res = await fetch("http://localhost:5000/booking", {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(bookingData),
     });
     const data = await res.json();
-    Toast.success(`"${room?.name}" room booked successful `);
-    return data;
+
+    console.log(data);
+    if (data) {
+      toast.success(`"${room?.name}" room booked successful `);
+      router.push("/rooms");
+      router.refresh();
+      return data;
+    }
   };
 
   return (
@@ -149,7 +162,7 @@ const BookNowModalPage = ({ room }) => {
                       variant="secondary"
                       className="w-full"
                       placeholder="Select one"
-                      onChange={setTimeStart}
+                      onSelectionChange={setTimeStart}
                       value={timeStart}
                     >
                       <Label>Start</Label>
@@ -175,7 +188,7 @@ const BookNowModalPage = ({ room }) => {
                       className="w-full"
                       placeholder="Select one"
                       value={timeEnd}
-                      onChange={setTimeEnd}
+                      onSelectionChange={setTimeEnd}
                     >
                       <Label>End</Label>
                       <Select.Trigger>
@@ -186,7 +199,7 @@ const BookNowModalPage = ({ room }) => {
                       </Select.Trigger>
                       <Select.Popover>
                         <ListBox>
-                          {timeSlots.map((time) => (
+                          {endTimeSlots.map((time) => (
                             <ListBox.Item key={time} id={time} textValue={time}>
                               {time}
                             </ListBox.Item>
