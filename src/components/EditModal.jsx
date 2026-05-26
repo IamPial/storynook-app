@@ -23,7 +23,6 @@ const EditModalPage = ({ data, token }) => {
   const router = useRouter();
   const [status, setStatus] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
-  // const { data: sessionData } = authClient.useSession();
 
   // for amenities checklist
   const handleChange = (check, isSelected) => {
@@ -36,12 +35,8 @@ const EditModalPage = ({ data, token }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
-
-    // const token = sessionData?.session?.token;
-    // console.log("token:", token);
 
     const res = await fetch(`http://localhost:5000/room/${_id}`, {
       method: "PATCH",
