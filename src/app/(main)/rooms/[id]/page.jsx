@@ -20,9 +20,17 @@ import { format } from "date-fns";
 
 const RoomDetailsPage = async ({ params }) => {
   const { id } = await params;
-  const { token } = await auth.api.getToken({
-    headers: await headers(),
-  });
+
+  //initialize token with null
+  let token = null;
+  try {
+    const tokenRes = await auth.api.getToken({
+      headers: await headers(),
+    });
+    token = tokenRes?.token;
+  } catch {
+    token = null;
+  }
 
   const session = await auth.api.getSession({
     headers: await headers(),
