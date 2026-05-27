@@ -38,6 +38,17 @@ const AllRoomsPage = () => {
     "Air Conditioning",
   ];
 
+  //handle amenity change with the checkbox
+  const handleAmenityChange = (amenity) => {
+    if (selectedAmenities.includes(amenity)) {
+      setSelectedAmenities(
+        selectedAmenities.filter((item) => item !== amenity),
+      );
+    } else {
+      setSelectedAmenities([...selectedAmenities, amenity]);
+    }
+  };
+
   return (
     <div className="container mx-auto py-10 px-2 md:px-0">
       <div className="mb-10">
@@ -68,7 +79,12 @@ const AllRoomsPage = () => {
                 key={item}
                 className="flex items-center gap-2.5 cursor-pointer"
               >
-                <input type="checkbox" className="accent-purple-600 w-4 h-4" />
+                <input
+                  type="checkbox"
+                  className="accent-purple-600 w-4 h-4"
+                  checked={selectedAmenities.includes(item)}
+                  onChange={() => handleAmenityChange(item)}
+                />
                 <span className="text-gray-700 text-sm">{item}</span>
               </label>
             ))}
