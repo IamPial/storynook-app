@@ -13,12 +13,12 @@ import {
   DateField,
   Calendar,
   DatePicker,
-  toast,
 } from "@heroui/react";
 import { RiExpandVerticalLine } from "react-icons/ri";
 import { getLocalTimeZone, today } from "@internationalized/date";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 //creates an array of time slots
 const timeSlots = [
@@ -36,7 +36,6 @@ const timeSlots = [
 ];
 
 const BookNowModalPage = ({ room }) => {
-  console.log(room);
   const router = useRouter();
 
   const [timeStart, setTimeStart] = useState("09:00");
@@ -82,9 +81,12 @@ const BookNowModalPage = ({ room }) => {
     });
     const data = await res.json();
 
-    console.log(data);
     if (data) {
-      toast.success(`"${room?.name}" room booked successful `);
+      toast(`"${room?.name}" room booked successful`, {
+        style: {
+          color: "#00c950",
+        },
+      });
       router.push("/rooms");
       router.refresh();
       return data;

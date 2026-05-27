@@ -9,7 +9,6 @@ import {
   Label,
   Separator,
   TextField,
-  toast,
 } from "@heroui/react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
@@ -17,6 +16,7 @@ import bookIcon from "@/assets/book.png";
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const SignUpPage = () => {
   const router = useRouter();
@@ -34,7 +34,12 @@ const SignUpPage = () => {
 
     if (data) {
       await authClient.signOut();
-      toast.success("Registration successful!");
+      // toast.success("Registration successful!");
+      toast("Registration successful!", {
+        style: {
+          color: "#00c950",
+        },
+      });
       router.push("/login");
     }
   };
@@ -42,6 +47,12 @@ const SignUpPage = () => {
   const handleGoogleSignIn = async () => {
     await authClient.signIn.social({
       provider: "google",
+    });
+    // toast.success("Singed in with google");
+    toast("Singed in with google", {
+      style: {
+        color: "#00c950",
+      },
     });
     router.push("/");
   };

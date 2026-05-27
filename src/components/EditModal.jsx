@@ -1,6 +1,5 @@
 "use client";
 
-import { authClient } from "@/lib/auth-client";
 import {
   Button,
   Checkbox,
@@ -12,12 +11,12 @@ import {
   Surface,
   TextArea,
   TextField,
-  toast,
 } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
+import { toast } from "sonner";
 
 const EditModalPage = ({ data, token }) => {
   const router = useRouter();
@@ -49,7 +48,11 @@ const EditModalPage = ({ data, token }) => {
     const result = await res.json();
 
     if (result) {
-      toast.success("Room Updated Successfully");
+      toast("Room Updated Successfully", {
+        style: {
+          color: "#00c950",
+        },
+      });
       router.refresh();
       return result;
     }

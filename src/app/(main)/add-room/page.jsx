@@ -10,12 +10,12 @@ import {
   Label,
   TextArea,
   TextField,
-  toast,
 } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 const AddRoomPage = () => {
   const router = useRouter();
@@ -61,7 +61,11 @@ const AddRoomPage = () => {
     const data = await res.json();
 
     if (data) {
-      toast.success("Room added successfully!");
+      toast("Room added successfully!", {
+        style: {
+          color: "#00c950",
+        },
+      });
       router.push("/my-listings");
       router.refresh();
     }

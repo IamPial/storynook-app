@@ -1,8 +1,9 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
-import { AlertDialog, Button, toast } from "@heroui/react";
+import { AlertDialog, Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { toast } from "sonner";
 
 const DeleteButton = ({ bookingId }) => {
   const router = useRouter();
@@ -26,7 +27,11 @@ const DeleteButton = ({ bookingId }) => {
 
     if (data) {
       router.refresh();
-      toast.success("Booking Cancelled");
+      toast("Booking Cancelled", {
+        style: {
+          color: "#00c950",
+        },
+      });
     }
   };
 

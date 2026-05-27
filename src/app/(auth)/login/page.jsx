@@ -16,6 +16,7 @@ import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -34,7 +35,11 @@ const LoginPage = () => {
       router.refresh();
     }
     if (error) {
-      Toast.danger("Invalid email or password");
+      toast("Invalid email or password", {
+        style: {
+          color: "#ff6467",
+        },
+      });
     }
   };
 

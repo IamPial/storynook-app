@@ -1,6 +1,6 @@
 import { Bebas_Neue, Nunito } from "next/font/google";
 import "./globals.css";
-import { Toast } from "@heroui/react";
+import { Toaster } from "sonner";
 
 const bebasNeue = Bebas_Neue({
   variable: "--font-bebas-neue",
@@ -26,8 +26,8 @@ export default function RootLayout({ children }) {
       className={`${bebasNeue.variable} ${nunito.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Toast.Provider className="top-8 right-8" placement="top end" />
         {children}
+        <Toaster position="top-right" closeButton={true} />
       </body>
     </html>
   );

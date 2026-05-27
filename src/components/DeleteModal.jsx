@@ -1,8 +1,9 @@
 "use client";
 
-import { AlertDialog, Button, toast } from "@heroui/react";
+import { AlertDialog, Button } from "@heroui/react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const DeleteModalPage = ({ data, token }) => {
   const { _id } = data;
@@ -18,7 +19,11 @@ const DeleteModalPage = ({ data, token }) => {
     const result = await res.json();
 
     if (result) {
-      toast.success("Room Deleted Successfully!");
+      toast("Room Deleted Successfully!", {
+        style: {
+          color: "#00c950",
+        },
+      });
       router.push("/rooms");
       router.refresh();
       return result;
