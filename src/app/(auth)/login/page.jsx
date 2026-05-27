@@ -31,6 +31,11 @@ const LoginPage = () => {
     });
 
     if (data) {
+      toast("Logged in Successfully", {
+        style: {
+          color: "#00c950",
+        },
+      });
       router.push("/");
       router.refresh();
     }
@@ -46,6 +51,11 @@ const LoginPage = () => {
   const handleGoogleSignIn = async () => {
     await authClient.signIn.social({
       provider: "google",
+    });
+    toast("Signed in with google", {
+      style: {
+        color: "#00c950",
+      },
     });
   };
 
