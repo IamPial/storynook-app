@@ -11,10 +11,23 @@ const AllRoomsPage = () => {
 
   useEffect(() => {
     const fetchRoomData = async () => {
-      const res = await fetch("http://localhost:5000/room");
+      const queryParams = new URLSearchParams();
+
+      //for checking the search
+      if (search) queryParams.append("search", search);
+
+      //for checking the amenities
+      if (selectedAmenities.length > 0) {
+        queryParams.append("amenities", selectedAmenities.join(","));
+      }
+      const res = await fetch(
+        `http://localhost:5000/roomroom?${queryParams.toString()}`,
+      );
       const data = await res.json();
+      setRoomData(data);
     };
-  });
+    fetchRoomData();
+  }, [search, selectedAmenities]);
 
   const checkBoxSelect = [
     "Whiteboard",
