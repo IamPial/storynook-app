@@ -120,10 +120,19 @@ const AllRoomsPage = () => {
             Reset
           </Button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 items-stretch  lg:grid-cols-3 gap-5">
-          {roomData.map((room) => {
-            return <RoomCardPage room={room} key={room._id} />;
-          })}
+
+        <div className="flex-1 w-full">
+          {roomData.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 items-stretch  lg:grid-cols-3 gap-5">
+              {roomData.map((room) => (
+                <RoomCardPage room={room} key={room._id} />
+              ))}
+            </div>
+          ) : (
+            <div className="border border-gray-200 rounded-2xl w-full text-purple-400 text-4xl sm:text-5xl md:text-6xl font-bold h-[300px] md:h-[400px] flex items-center justify-center text-center py-10 px-6">
+              No rooms found
+            </div>
+          )}
         </div>
       </div>
     </div>
