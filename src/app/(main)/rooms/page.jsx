@@ -22,7 +22,7 @@ const AllRoomsPage = () => {
         queryParams.append("amenities", selectedAmenities.join(","));
       }
       const res = await fetch(
-        `http://localhost:5000/roomroom?${queryParams.toString()}`,
+        `http://localhost:5000/room?${queryParams.toString()}`,
       );
       const data = await res.json();
       setRoomData(data);
