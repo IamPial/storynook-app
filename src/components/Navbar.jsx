@@ -1,14 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Avatar, Button, Dropdown, Label } from "@heroui/react";
+import { Avatar, Button, Dropdown } from "@heroui/react";
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/assets/logo.png";
 import NavLink from "./NavLink";
 import { authClient } from "@/lib/auth-client";
 import { IoIosLogOut } from "react-icons/io";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const Navbar = () => {
   const router = useRouter();
@@ -17,7 +18,21 @@ const Navbar = () => {
   const user = session?.user;
 
   const handleSignOut = async () => {
+    try {
+      await fetch("http://localhost:5000/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch (error) {
+      console.error("error", error);
+    }
     await authClient.signOut();
+    toast("You have been signed out", {
+      style: {
+        color: "#00c950",
+      },
+    });
+
     router.push("/");
     router.refresh();
   };
