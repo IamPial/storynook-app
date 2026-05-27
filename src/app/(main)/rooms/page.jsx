@@ -2,10 +2,19 @@ import { Button } from "@heroui/react";
 import { BsSearch } from "react-icons/bs";
 
 import RoomCardPage from "@/components/Card";
+import { useEffect, useState } from "react";
 
-const AllRoomsPage = async () => {
-  const res = await fetch("http://localhost:5000/room");
-  const roomData = await res.json();
+const AllRoomsPage = () => {
+  const [roomData, setRoomData] = useState([]);
+  const [search, setSearch] = useState("");
+  const [selectedAmenities, setSelectedAmenities] = useState([]);
+
+  useEffect(() => {
+    const fetchRoomData = async () => {
+      const res = await fetch("http://localhost:5000/room");
+      const data = await res.json();
+    };
+  });
 
   const checkBoxSelect = [
     "Whiteboard",
