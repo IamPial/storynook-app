@@ -1,6 +1,7 @@
+"use client";
+
 import { Button } from "@heroui/react";
 import { BsSearch } from "react-icons/bs";
-
 import RoomCardPage from "@/components/Card";
 import { useEffect, useState } from "react";
 
@@ -49,6 +50,11 @@ const AllRoomsPage = () => {
     }
   };
 
+  const handleReset = () => {
+    setSearch("");
+    setSelectedAmenities([]);
+  };
+
   return (
     <div className="container mx-auto py-10 px-2 md:px-0">
       <div className="mb-10">
@@ -66,7 +72,9 @@ const AllRoomsPage = () => {
               <BsSearch size={13} className="text-gray-400" />
               <input
                 type="text"
-                placeholder="e.g. Quiet Pod"
+                placeholder="Quite Place"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 className="bg-transparent  text-sm text-gray-600 placeholder:text-gray-300 outline-none w-full"
               />
             </div>
@@ -105,7 +113,10 @@ const AllRoomsPage = () => {
               />
             </div>
           </div>
-          <Button className="bg-[#9d4edd] text-white text-sm rounded-xl ">
+          <Button
+            onClick={handleReset}
+            className="bg-[#9d4edd] text-white text-sm rounded-xl "
+          >
             Reset
           </Button>
         </div>
