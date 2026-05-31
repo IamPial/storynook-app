@@ -12,7 +12,7 @@ const DeleteButton = ({ bookingId }) => {
     const token = tokenData?.token;
 
     const res = await fetch(
-      `http://localhost:5000/booking/${bookingId}/cancel`,
+      `${process.env.NEXT_PUBLIC_API_URL}/booking/${bookingId}/cancel`,
       {
         method: "PATCH",
         headers: {
@@ -24,7 +24,6 @@ const DeleteButton = ({ bookingId }) => {
     );
 
     const data = await res.json();
-    console.log(data);
 
     if (data) {
       router.refresh();

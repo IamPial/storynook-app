@@ -52,12 +52,15 @@ const AddRoomPage = () => {
     addRoomData.amenities = status;
     addRoomData.userId = userData?.user?.id;
 
-    const tokenRes = await fetch("http://localhost:3000/api/auth/token", {
-      credentials: "include",
-    });
+    const tokenRes = await fetch(
+      `${process.env.NEXT_PUBLIC_AUTH_URL}/api/auth/token`,
+      {
+        credentials: "include",
+      },
+    );
     const { token } = await tokenRes.json();
 
-    const res = await fetch("http://localhost:5000/room", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/room`, {
       method: "POST",
       headers: {
         "content-type": "application/json",

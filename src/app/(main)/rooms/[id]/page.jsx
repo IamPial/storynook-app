@@ -31,7 +31,7 @@ const RoomDetailsPage = async ({ params }) => {
   });
   const user = session?.user;
 
-  const res = await fetch(`http://localhost:5000/room/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/room/${id}`, {
     cache: "no-store",
   });
   const data = await res.json();

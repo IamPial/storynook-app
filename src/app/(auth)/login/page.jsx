@@ -18,12 +18,6 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-// export const metadata = {
-//   title: "StoryNook - Login",
-//   description:
-//     "StoryNook is an online platform for booking quiet library rooms and enjoying a peaceful reading experience.",
-// };
-
 const LoginPage = () => {
   const router = useRouter();
   const handleSubmit = async (e) => {
@@ -36,14 +30,17 @@ const LoginPage = () => {
       password: user.password,
     });
 
-    const tokenRes = await fetch("http://localhost:3000/api/auth/token", {
-      credentials: "include",
-    });
+    const tokenRes = await fetch(
+      `${process.env.NEXT_PUBLIC_AUTH_URL}/api/auth/token`,
+      {
+        credentials: "include",
+      },
+    );
     const tokenData = await tokenRes.json();
 
     // console.log("JWT data:", tokenData);
 
-    await fetch("http://localhost:5000/auth/set-token", {
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/set-token`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },

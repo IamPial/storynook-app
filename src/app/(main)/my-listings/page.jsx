@@ -19,10 +19,13 @@ const MyListingsPage = async () => {
 
   const userId = session?.user?.id;
 
-  const res = await fetch(`http://localhost:5000/room?userId=${userId}`, {
-    method: "GET",
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/room?userId=${userId}`,
+    {
+      method: "GET",
+      cache: "no-store",
+    },
+  );
 
   const bookingData = await res.json();
 

@@ -4,9 +4,7 @@ import Link from "next/link";
 import { Button } from "@heroui/react";
 
 const HomePageCard = async () => {
-  // const res = await fetch("http://localhost:5000/room?limit=6");
-  // const roomData = await res.json();
-  const res = await fetch("http://localhost:5000/room?limit=6");
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/room?limit=6`);
   const data = await res.json();
   const roomData = Array.isArray(data) ? data : (data.items ?? []);
 
