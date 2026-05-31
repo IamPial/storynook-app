@@ -38,8 +38,6 @@ const LoginPage = () => {
     );
     const tokenData = await tokenRes.json();
 
-    // console.log("JWT data:", tokenData);
-
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/set-token`, {
       method: "POST",
       credentials: "include",

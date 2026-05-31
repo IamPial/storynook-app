@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
   const { data: session, error } = authClient.useSession();
 
@@ -36,7 +37,6 @@ const Navbar = () => {
     router.push("/");
     router.refresh();
   };
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <div className="sticky top-0 z-40  border-b border-separator bg-background/50 backdrop-blur-lg ">
@@ -205,12 +205,20 @@ const Navbar = () => {
           <div className="border-t border-separator lg:hidden">
             <ul className="flex flex-col gap-2 p-4">
               <li>
-                <NavLink href="/" className="block py-2">
+                <NavLink
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  href="/"
+                  className="block py-2"
+                >
                   Home
                 </NavLink>
               </li>
               <li>
-                <NavLink href="/rooms" className="block py-2 font-medium ">
+                <NavLink
+                  href="/rooms"
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  className="block py-2 font-medium "
+                >
                   Rooms
                 </NavLink>
               </li>
@@ -220,12 +228,14 @@ const Navbar = () => {
                     <NavLink
                       href="/add-room"
                       className="block py-2 font-medium "
+                      onClick={() => setIsMenuOpen(!isMenuOpen)}
                     >
                       Add Room
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
+                      onClick={() => setIsMenuOpen(!isMenuOpen)}
                       href="/my-listings"
                       className="block py-2 font-medium"
                     >
@@ -234,6 +244,7 @@ const Navbar = () => {
                   </li>
                   <li>
                     <NavLink
+                      onClick={() => setIsMenuOpen(!isMenuOpen)}
                       href="/my-bookings"
                       className="block py-2 font-medium "
                     >
