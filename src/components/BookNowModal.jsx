@@ -77,6 +77,7 @@ const BookNowModalPage = ({ room }) => {
         "content-type": "application/json",
         authorization: `Bearer ${token}`,
       },
+      credentials: "include",
       body: JSON.stringify(bookingData),
     });
     const data = await res.json();

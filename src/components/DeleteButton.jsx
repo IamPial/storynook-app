@@ -19,6 +19,7 @@ const DeleteButton = ({ bookingId }) => {
           "content-type": "application/json",
           authorization: `Bearer ${token}`,
         },
+        credentials: "include",
       },
     );
 

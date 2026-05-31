@@ -214,24 +214,34 @@ const Navbar = () => {
                   Rooms
                 </NavLink>
               </li>
-              <li>
-                <NavLink href="/add-room" className="block py-2 font-medium ">
-                  Add Room
-                </NavLink>
-              </li>
-              <li>
-                <NavLink href="/my-listings" className="block py-2 font-medium">
-                  My Listings
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  href="/my-bookings"
-                  className="block py-2 font-medium "
-                >
-                  My Bookings
-                </NavLink>
-              </li>
+              {user && (
+                <>
+                  <li>
+                    <NavLink
+                      href="/add-room"
+                      className="block py-2 font-medium "
+                    >
+                      Add Room
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      href="/my-listings"
+                      className="block py-2 font-medium"
+                    >
+                      My Listings
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      href="/my-bookings"
+                      className="block py-2 font-medium "
+                    >
+                      My Bookings
+                    </NavLink>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         )}

@@ -18,6 +18,12 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+// export const metadata = {
+//   title: "StoryNook - Login",
+//   description:
+//     "StoryNook is an online platform for booking quiet library rooms and enjoying a peaceful reading experience.",
+// };
+
 const LoginPage = () => {
   const router = useRouter();
   const handleSubmit = async (e) => {
@@ -28,6 +34,20 @@ const LoginPage = () => {
     const { data, error } = await authClient.signIn.email({
       email: user.email,
       password: user.password,
+    });
+
+    const tokenRes = await fetch("http://localhost:3000/api/auth/token", {
+      credentials: "include",
+    });
+    const tokenData = await tokenRes.json();
+
+    // console.log("JWT data:", tokenData);
+
+    await fetch("http://localhost:5000/auth/set-token", {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: tokenData.token }),
     });
 
     if (data) {

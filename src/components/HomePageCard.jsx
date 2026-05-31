@@ -4,8 +4,11 @@ import Link from "next/link";
 import { Button } from "@heroui/react";
 
 const HomePageCard = async () => {
+  // const res = await fetch("http://localhost:5000/room?limit=6");
+  // const roomData = await res.json();
   const res = await fetch("http://localhost:5000/room?limit=6");
-  const roomData = await res.json();
+  const data = await res.json();
+  const roomData = Array.isArray(data) ? data : (data.items ?? []);
 
   return (
     <div className="bg-purple-100">

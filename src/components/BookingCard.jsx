@@ -52,7 +52,7 @@ const BookingCardPage = ({ newData }) => {
               <BsPeopleFill size={14} /> {capacity} people
             </span>
             <span className="flex items-center gap-1.5 text-[12px] text-gray-400">
-              <BsBookmarkCheckFill size={14} /> {bookingCount} bookings
+              <BsBookmarkCheckFill size={14} /> {bookingCount || 0} bookings
             </span>
           </div>
 
@@ -67,14 +67,6 @@ const BookingCardPage = ({ newData }) => {
                   {roomFacilities}
                 </Chip>
               ))}
-              {/* {slicingCount > 0 && (
-                <Chip
-                  size="sm"
-                  className="bg-purple-100 text-purple-600 border-0"
-                >
-                  <FaPlus className="w-2 h-2" /> {slicingCount} more
-                </Chip>
-              )} */}
             </div>
           </div>
 

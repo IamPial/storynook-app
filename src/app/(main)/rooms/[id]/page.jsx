@@ -18,26 +18,19 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { format } from "date-fns";
 
+export const metadata = {
+  title: "StoryNook - Room Description",
+  description:
+    "StoryNook is an online platform for booking quiet library rooms and enjoying a peaceful reading experience.",
+};
 const RoomDetailsPage = async ({ params }) => {
   const { id } = await params;
-
-  //initialize token with null
-  let token = null;
-  try {
-    const tokenRes = await auth.api.getToken({
-      headers: await headers(),
-    });
-    token = tokenRes?.token;
-  } catch {
-    token = null;
-  }
 
   const session = await auth.api.getSession({
     headers: await headers(),
   });
   const user = session?.user;
 
-  //from room API
   const res = await fetch(`http://localhost:5000/room/${id}`, {
     cache: "no-store",
   });
@@ -69,12 +62,14 @@ const RoomDetailsPage = async ({ params }) => {
               <BsArrowLeft /> Back
             </Button>
           </Link>
-          <Link href="/add-room">
-            <Button className="bg-purple-400 rounded-lg">
-              {" "}
-              <BiPlusCircle /> Add Rooms
-            </Button>
-          </Link>
+          {user && (
+            <Link href="/add-room">
+              <Button className="bg-purple-400 rounded-lg">
+                {" "}
+                <BiPlusCircle /> Add Rooms
+              </Button>
+            </Link>
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
@@ -162,8 +157,8 @@ const RoomDetailsPage = async ({ params }) => {
                     <BookNowModalPage room={data} />
                     {isOwnerThisRoom && (
                       <div className="flex gap-5 justify-between">
-                        <EditModalPage data={data} token={token} />
-                        <DeleteModalPage data={data} token={token} />
+                        <EditModalPage data={data} />
+                        <DeleteModalPage data={data} />
                       </div>
                     )}
                   </>

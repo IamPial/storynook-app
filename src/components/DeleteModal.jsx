@@ -9,7 +9,14 @@ const DeleteModalPage = ({ data, token }) => {
   const { _id } = data;
   const router = useRouter();
   const handleDelete = async () => {
-    const res = await fetch(`http://localhost:5000/room/${_id}`, {
+    const tokenRes = await fetch(
+      `${process.env.NEXT_PUBLIC_AUTH_URL}/api/auth/token`,
+      {
+        credentials: "include",
+      },
+    );
+    const { token } = await tokenRes.json();
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/room/${_id}`, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",

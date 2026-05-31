@@ -6,22 +6,31 @@ import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
 import { HiOutlineHome } from "react-icons/hi2";
 
+export const metadata = {
+  title: "StoryNook - My Listing Room",
+  description:
+    "StoryNook is an online platform for booking quiet library rooms and enjoying a peaceful reading experience.",
+};
+
 const MyListingsPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+
   const userId = session?.user?.id;
-  console.log(userId);
 
   const res = await fetch(`http://localhost:5000/room?userId=${userId}`, {
+    method: "GET",
     cache: "no-store",
   });
-  const data = await res.json();
+
+  const bookingData = await res.json();
+
   return (
     <div className="container mx-auto px-2 md:px-0 py-10">
       <h2 className="text-4xl text-dark font-bold mt-2 mb-5">My Listings</h2>
 
-      {data.length === 0 ? (
+      {bookingData.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 px-6 border border-dashed border-purple-400 rounded-2xl bg-[#faf7ff] text-center gap-4">
           <div className="w-14 h-14 rounded-full bg-purple-100 flex items-center justify-center">
             <HiOutlineHome size={28} className="text-purple-600" />
@@ -43,7 +52,7 @@ const MyListingsPage = async () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 items-stretch lg:grid-cols-3 gap-5">
-          {data.map((newData) => {
+          {bookingData.map((newData) => {
             return <BookingCardPage newData={newData} key={newData._id} />;
           })}
         </div>

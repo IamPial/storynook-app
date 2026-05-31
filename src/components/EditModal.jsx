@@ -18,7 +18,7 @@ import { useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
 import { toast } from "sonner";
 
-const EditModalPage = ({ data, token }) => {
+const EditModalPage = ({ data }) => {
   const router = useRouter();
   const [status, setStatus] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
@@ -37,12 +37,21 @@ const EditModalPage = ({ data, token }) => {
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
 
-    const res = await fetch(`http://localhost:5000/room/${_id}`, {
+    const tokenRes = await fetch(
+      `${process.env.NEXT_PUBLIC_AUTH_URL}/api/auth/token`,
+      {
+        credentials: "include",
+      },
+    );
+    const { token } = await tokenRes.json();
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/room/${_id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
         authorization: `Bearer ${token}`,
       },
+      credentials: "include",
       body: JSON.stringify(data),
     });
     const result = await res.json();

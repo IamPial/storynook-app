@@ -11,6 +11,7 @@ import {
   TextArea,
   TextField,
 } from "@heroui/react";
+
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -51,10 +52,16 @@ const AddRoomPage = () => {
     addRoomData.amenities = status;
     addRoomData.userId = userData?.user?.id;
 
+    const tokenRes = await fetch("http://localhost:3000/api/auth/token", {
+      credentials: "include",
+    });
+    const { token } = await tokenRes.json();
+
     const res = await fetch("http://localhost:5000/room", {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(addRoomData),
     });
